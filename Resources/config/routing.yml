@@ -1,0 +1,19 @@
+ggggino_skusku_cart_summary:
+    path: /
+    defaults: { _controller: ggggino_skusku.controller.cart:summaryAction }
+
+ggggino_skusku_cart_save:
+    path: /save
+    defaults: { _controller: ggggino_skusku.controller.cart:saveAction }
+
+ggggino_skusku_cart_clear:
+    path: /clear
+    defaults: { _controller: ggggino_skusku.controller.cart:clearAction }
+
+ggggino_skusku_cart_item_add:
+    path: /add
+    defaults: { _controller: ggggino_skusku.controller.cart_item:addAction }
+
+ggggino_skusku_cart_item_remove:
+    path: /{id}/remove
+    defaults: { _controller: ggggino_skusku.controller.cart_item:removeAction }
