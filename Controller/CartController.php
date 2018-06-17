@@ -1,6 +1,6 @@
 <?php
 
-namespace Sylius\Bundle\CartBundle\Controller;
+namespace GGGGino\SkuskuCartBundle\Controller;
 
 use FOS\RestBundle\View\View;
 use Sylius\Component\Cart\SyliusCartEvents;
@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController as Controller;
 
 /**
  * Class CartController
