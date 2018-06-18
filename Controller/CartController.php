@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController as Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CartController
@@ -18,6 +19,7 @@ use Sylius\Bundle\ResourceBundle\Controller\ResourceController as Controller;
 class CartController extends Controller
 {
     /**
+     * @Route("/", name="ggggino_skusku_cart_summary")
      * @param Request $request
      *
      * @return Response
