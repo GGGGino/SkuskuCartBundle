@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^7.0",
+        "craue/formflow-bundle": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.4",
         "liuggio/excelbundle": "^2.1",
         "sylius/order-bundle": "^1.0"

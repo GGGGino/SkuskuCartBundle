@@ -1,0 +1,5 @@
+services:
+    skusku.form.flow.cart:
+        class: GGGGino\SkuskuCartBundle\Form\CartFlow
+        parent: craue.form.flow
+        public: true

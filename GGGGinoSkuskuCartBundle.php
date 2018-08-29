@@ -1,6 +1,6 @@
 <?php
 
-namespace GGGGino\SonataExtraFieldsBundle;
+namespace GGGGino\SkuskuCartBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
