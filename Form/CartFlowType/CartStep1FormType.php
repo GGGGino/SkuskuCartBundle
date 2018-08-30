@@ -1,6 +1,6 @@
 <?php
 
-namespace GGGGino\SkuskuCartBundle\Form\CartType;
+namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

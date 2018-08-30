@@ -1,0 +1,13 @@
+{% extends "GGGGinoSkuskuCartBundle::layout.html.twig" %}
+
+{% block body %}
+    <div class="prodotto">
+        <h1>Prodotto: {{ product.description }}</h1>
+        <div>
+            Price: {{ product.price }}<br/>
+            From: {{ product.getAvailableFrom|date('d/m/Y') }}<br/>
+            To: {{ product.availableTo|date('d/m/Y') }}<br/><br/>
+        </div>
+        {% include "GGGGinoSkuskuCartBundle:Cart:add_to_cart.html.twig" %}
+    </div>
+{% endblock %}
