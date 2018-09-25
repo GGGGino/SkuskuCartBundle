@@ -8,17 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * SkuskuCustomerBase
  * @ORM\MappedSuperclass()
  */
-abstract class SkuskuCustomerBase
+abstract class SkuskuCustomerBase implements SkuskuCustomerInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
      * @var string
      *
@@ -110,16 +101,6 @@ abstract class SkuskuCustomerBase
      */
     protected $dateUpd;
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set secureKey.

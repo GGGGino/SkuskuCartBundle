@@ -1,5 +1,19 @@
 services:
-    skusku.form.flow.cart:
+    GGGGino\SkuskuCartBundle\Form\CartFlow:
         class: GGGGino\SkuskuCartBundle\Form\CartFlow
         parent: craue.form.flow
         public: true
+
+    GGGGino\SkuskuCartBundle\Twig\CartExtension:
+        class: GGGGino\SkuskuCartBundle\Twig\CartExtension
+        public: false
+        arguments: ['@twig', '@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: twig.extension }
+
+    GGGGino\SkuskuCartBundle\Twig\CartExtension:
+        class: GGGGino\SkuskuCartBundle\Twig\CartExtension
+        public: false
+        arguments: ['@twig', '@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: twig.extension }

@@ -28,6 +28,13 @@ class SkuskuCart
     private $products;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SkuskuCustomerInterface")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     * @var SkuskuCustomerInterface
+     */
+    protected $customer;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
@@ -64,7 +71,7 @@ class SkuskuCart
      *
      * @param \DateTime $dateAdd
      *
-     * @return Skusku
+     * @return SkuskuCart
      */
     public function setDateAdd($dateAdd)
     {
@@ -88,7 +95,7 @@ class SkuskuCart
      *
      * @param \DateTime $dateUpd
      *
-     * @return Skusku
+     * @return SkuskuCart
      */
     public function setDateUpd($dateUpd)
     {
