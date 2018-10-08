@@ -23,7 +23,7 @@ class SkuskuCart
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="SkuskuCartProductBase", mappedBy="cart")
+     * @ORM\OneToMany(targetEntity="SkuskuCartProduct", mappedBy="cart")
      */
     private $products;
 
@@ -112,5 +112,31 @@ class SkuskuCart
     public function getDateUpd()
     {
         return $this->dateUpd;
+    }
+
+    /**
+     * @return SkuskuCustomerInterface
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param mixed $products
+     * @return SkuskuCart
+     */
+    public function setProducts($products)
+    {
+        $this->products = $products;
+        return $this;
     }
 }

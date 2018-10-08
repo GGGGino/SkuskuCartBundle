@@ -10,4 +10,5 @@ namespace GGGGino\SkuskuCartBundle\Repository;
  */
 class CartRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByUser(){}
 }

@@ -5,6 +5,7 @@ namespace GGGGino\SkuskuCartBundle\Controller;
 use Allyou\ManagementCafBundle\Entity\Product;
 use GGGGino\SkuskuCartBundle\Form\AddToCartType;
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
+use GGGGino\SkuskuCartBundle\Service\CRUDCart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,6 +71,9 @@ class ProductController extends Controller
      */
     public function productAction(Request $request, $id)
     {
+        /** @var CRUDCart $crudCart */
+        $crudCart = $this->get(CRUDCart::class);
+
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
             ->find($id);
@@ -89,6 +93,7 @@ class ProductController extends Controller
             // but, the original `$task` variable has also been updated
             $task = $addToCartForm->getData();
 
+            $crudCart->updateOrCreateCart($task);
             var_dump($task);exit;
 
             // ... perform some action, such as saving the task to the database

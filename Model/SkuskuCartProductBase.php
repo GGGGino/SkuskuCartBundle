@@ -33,24 +33,6 @@ abstract class SkuskuCartProductBase
     /**
      * @return mixed
      */
-    public function getCart()
-    {
-        return $this->cart;
-    }
-
-    /**
-     * @param mixed $cart
-     * @return SkuskuCartProductBase
-     */
-    public function setCart($cart)
-    {
-        $this->cart = $cart;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getProduct()
     {
         return $this->product;
@@ -81,6 +63,24 @@ abstract class SkuskuCartProductBase
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    /**
+     * @param mixed $cart
+     * @return SkuskuCartProductBase
+     */
+    public function setCart($cart)
+    {
+        $this->cart = $cart;
         return $this;
     }
 }

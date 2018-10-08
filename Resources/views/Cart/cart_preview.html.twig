@@ -30,10 +30,39 @@
     <div class="right aligned column">
         <div id="skusku-cart-button" class="ui circular cart button">
             <i class="cart icon"></i>
-            <span id="skusku-cart-total">$0.00</span>
+            <span id="skusku-cart-total">{{ cart.customer.username }}</span>
         </div>
         <div class="details">
-            Your cart is empty.
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">product</th>
+                    <th scope="col">price</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in cart.products %}
+                    <tr>
+                        <th>{{ product.id }}</th>
+                        <td>{{ product.product.getTitle() }}</td>
+                        <td>{{ product.product.getPrice() }}€</td>
+                        <td>{{ product.quantity }}</td>
+                        <td><i data-idcartproducturl="{{ path('remove_item_from_cart', {'product': product.id}) }}" class="fa fa-trash"></i></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+<script>
+    jQuery('.cartPreview .fa-trash').on('click', function(e) {
+        var $button = $(this);
+        $.get( $button.data('idcartproducturl'), function( data ) {
+            $button.closest('tr').fadeOut();
+        });
+    });
+</script>

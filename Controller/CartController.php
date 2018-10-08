@@ -3,7 +3,10 @@
 namespace GGGGino\SkuskuCartBundle\Controller;
 
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
+use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
+use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends Controller
@@ -45,5 +48,19 @@ class CartController extends Controller
             'form' => $form->createView(),
             'flow' => $flow,
         ));
+    }
+
+    /**
+     * Cart page
+     *
+     * @Route("/remove_item/{product}", name="remove_item_from_cart")
+     */
+    public function removeItemFromCart(SkuskuCartProduct $product)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($product);
+        $em->flush();
+
+        return new Response('ok');
     }
 }

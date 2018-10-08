@@ -4,16 +4,13 @@ services:
         parent: craue.form.flow
         public: true
 
-    GGGGino\SkuskuCartBundle\Twig\CartExtension:
-        class: GGGGino\SkuskuCartBundle\Twig\CartExtension
-        public: false
-        arguments: ['@twig', '@doctrine.orm.default_entity_manager']
-        tags:
-            - { name: twig.extension }
+    GGGGino\SkuskuCartBundle\Service\CRUDCart:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager']
 
     GGGGino\SkuskuCartBundle\Twig\CartExtension:
         class: GGGGino\SkuskuCartBundle\Twig\CartExtension
         public: false
-        arguments: ['@twig', '@doctrine.orm.default_entity_manager']
+        arguments: ['@twig', '@doctrine.orm.default_entity_manager', '@security.token_storage']
         tags:
             - { name: twig.extension }
