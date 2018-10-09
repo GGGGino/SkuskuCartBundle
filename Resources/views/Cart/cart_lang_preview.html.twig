@@ -1,0 +1,55 @@
+<style>
+    .cartLangPreview{
+        display: inline-block;
+        position: relative;
+    }
+    #skusku-cart-button{
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+    }
+    .cartLangPreview .details{
+        -webkit-transition: all .5s; /* Safari */
+        transition: all .5s;
+        max-height: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: 20;
+        background: #FFFFFF;
+        top: 100%;
+    }
+    .cartLangPreview:hover .details{
+        -webkit-transition: all .5s; /* Safari */
+        transition: all .5s;
+        max-height: 500px;
+        border: 1px solid grey;
+        padding: 10px 20px;
+    }
+</style>
+<div class="cartLangPreview">
+    <div class="right aligned column">
+        <div id="skusku-cart-button" class="ui circular cart button">
+            <i class="cart icon"></i>
+            <span id="skusku-cart-total">{{ currentLanguage.getName() }}</span>
+        </div>
+        <div class="details">
+            <table class="table table-striped">
+                <tbody>
+                {% for language in languages %}
+                    <tr>
+                        <td>{{ language.getName }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery('.cartLangPreview .fa-trash').on('click', function(e) {
+        var $button = $(this);
+        $.get( $button.data('idcartproducturl'), function( data ) {
+            $button.closest('tr').fadeOut();
+        });
+    });
+</script>

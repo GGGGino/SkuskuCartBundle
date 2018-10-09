@@ -1,0 +1,55 @@
+<style>
+    .cartCurrencyPreview{
+        display: inline-block;
+        position: relative;
+    }
+    #skusku-cart-button{
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+    }
+    .cartCurrencyPreview .details{
+        -webkit-transition: all .5s; /* Safari */
+        transition: all .5s;
+        max-height: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: 20;
+        background: #FFFFFF;
+        top: 100%;
+    }
+    .cartCurrencyPreview:hover .details{
+        -webkit-transition: all .5s; /* Safari */
+        transition: all .5s;
+        max-height: 500px;
+        border: 1px solid grey;
+        padding: 10px 20px;
+    }
+</style>
+<div class="cartCurrencyPreview">
+    <div class="right aligned column">
+        <div id="skusku-cart-button" class="ui circular cart button">
+            <i class="cart icon"></i>
+            <span id="skusku-cart-total">{{ currentCurrency.getIsoCode() }} - {{ currentCurrency.getSign() }}</span>
+        </div>
+        <div class="details">
+            <table class="table table-striped">
+                <tbody>
+                {% for currency in currencies %}
+                    <tr>
+                        <td>{{ currency.getIsoCode() }} - {{ currency.getSign() }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery('.cartCurrencyPreview .fa-trash').on('click', function(e) {
+        var $button = $(this);
+        $.get( $button.data('idcartproducturl'), function( data ) {
+            $button.closest('tr').fadeOut();
+        });
+    });
+</script>

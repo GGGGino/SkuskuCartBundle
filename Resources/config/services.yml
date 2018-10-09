@@ -12,9 +12,17 @@ services:
         public: true
         arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage']
 
+    GGGGino\SkuskuCartBundle\Service\CurrencyManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage']
+
+    GGGGino\SkuskuCartBundle\Service\LangManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage']
+
     GGGGino\SkuskuCartBundle\Twig\CartExtension:
         class: GGGGino\SkuskuCartBundle\Twig\CartExtension
         public: false
-        arguments: ['@twig', '@GGGGino\SkuskuCartBundle\Service\CartManager']
+        arguments: ['@twig', '@GGGGino\SkuskuCartBundle\Service\CartManager', '@GGGGino\SkuskuCartBundle\Service\CurrencyManager', '@GGGGino\SkuskuCartBundle\Service\LangManager']
         tags:
             - { name: twig.extension }
