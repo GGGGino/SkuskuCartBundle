@@ -43,10 +43,30 @@ class CartExtension extends AbstractExtension
             new TwigFunction('render_preview_cart', array($this, 'renderPreviewCart'), array(
                 'is_safe' => array('html')
             )),
+            new TwigFunction('render_currency_cart', array($this, 'renderCurrencyCart'), array(
+                'is_safe' => array('html')
+            )),
         );
     }
 
+    /**
+     * @param null $template
+     * @return string
+     */
     public function renderPreviewCart($template = null)
+    {
+        if( !$template )
+            $template = $this->templateFile;
+
+        /** @var SkuskuCart $cart */
+        $cart = $this->cartManager->getCartFromCustomer();
+
+        return $this->templating->render($template, array(
+            'cart' => $cart,
+        ));
+    }
+
+    public function renderCurrencyCart($template = null)
     {
         if( !$template )
             $template = $this->templateFile;

@@ -17,6 +17,7 @@
         z-index: 20;
         background: #FFFFFF;
         top: 100%;
+        left: -200px;
     }
     .cartPreview:hover .details{
         -webkit-transition: all .5s; /* Safari */
@@ -30,7 +31,7 @@
     <div class="right aligned column">
         <div id="skusku-cart-button" class="ui circular cart button">
             <i class="cart icon"></i>
-            <span id="skusku-cart-total">{{ cart.customer.username }}</span>
+            <span id="skusku-cart-total">{{ cart.getTotalQuantity() }} - {{ cart.getTotalPrice() }}€</span>
         </div>
         <div class="details">
             {% if cart.products.count > 0 %}
@@ -69,7 +70,7 @@
             {% else %}
                 <h2>No products in cart</h2>
             {% endif %}
-            <a href="{{ path('cart_page') }}" class="btn">Cart</a>
+            <a href="{{ path('cart_page') }}" class="btn btn-primary">Cart</a>
         </div>
     </div>
 </div>

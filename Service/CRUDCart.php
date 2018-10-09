@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Class CRUDCart
  * @package GGGGino\SkuskuCartBundle\Service
- * @deprecated Adesso uso il cartManager
+ * @deprecated Use CartManager instead
  */
 class CRUDCart
 {

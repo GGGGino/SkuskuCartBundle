@@ -63,8 +63,8 @@ class ProductController extends Controller
      */
     public function productAction(Request $request, $id)
     {
-        /** @var CRUDCart $crudCart */
-        $crudCart = $this->get(CRUDCart::class);
+        /** @var CartManager $cartManager */
+        $cartManager = $this->get(CartManager::class);
 
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
@@ -78,24 +78,7 @@ class ProductController extends Controller
             'idProduct' => $id
         ));
 
-        $addToCartForm->handleRequest($request);
-
-        if ($addToCartForm->isSubmitted() && $addToCartForm->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $task = $addToCartForm->getData();
-
-            $crudCart->updateOrCreateCart($task);
-            var_dump($task);exit;
-
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($task);
-            // $entityManager->flush();
-
-            return $this->redirectToRoute('products_page');
-        }
+        $cartManager->addProductToCart($request, $addToCartForm);
 
         return $this->render('GGGGinoSkuskuCartBundle::product.html.twig', array(
             'product' => $product,

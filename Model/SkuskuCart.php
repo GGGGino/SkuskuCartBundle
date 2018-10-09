@@ -29,6 +29,20 @@ class SkuskuCart
     private $products;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SkuskuLangInterface")
+     * @ORM\JoinColumn(name="lang_id", referencedColumnName="id")
+     * @var SkuskuLangInterface
+     */
+    protected $lang;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="SkuskuCurrencyInterface")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     * @var SkuskuCurrencyInterface
+     */
+    protected $currency;
+
+    /**
      * @ORM\ManyToOne(targetEntity="SkuskuCustomerInterface")
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
      * @var SkuskuCustomerInterface
@@ -153,6 +167,8 @@ class SkuskuCart
     }
 
     /**
+     * Get the total amount of the cart
+     *
      * @return mixed
      */
     public function getTotalPrice()
@@ -160,5 +176,54 @@ class SkuskuCart
         return array_reduce($this->getProducts()->toArray(), function($carry, SkuskuCartProduct $product) {
             return $carry + ($product->getSubtotal());
         }, 0);
+    }
+
+    /**
+     * Get the number of products added to the cart.
+     * Useful for cart preview
+     *
+     * @return integer
+     */
+    public function getTotalQuantity()
+    {
+        return array_reduce($this->getProducts()->toArray(), function($carry, SkuskuCartProduct $product) {
+            return $carry + ($product->getQuantity());
+        }, 0);
+    }
+
+    /**
+     * @return SkuskuCurrencyInterface
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param SkuskuCurrencyInterface $currency
+     * @return SkuskuCart
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+        return $this;
+    }
+
+    /**
+     * @return SkuskuLangInterface
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * @param SkuskuLangInterface $lang
+     * @return SkuskuCart
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+        return $this;
     }
 }

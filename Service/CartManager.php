@@ -8,6 +8,7 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
 use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -53,9 +54,9 @@ class CartManager
 
     /**
      * @param Request $request
-     * @param Form $form
+     * @param FormInterface $form
      */
-    public function addProductToCart(Request $request, Form $form)
+    public function addProductToCart(Request $request, FormInterface $form)
     {
         if( $this->handled )
             return;
@@ -75,8 +76,6 @@ class CartManager
 
             /** @var SkuskuCart $cart */
             $cart = $this->getCartFromCustomer($customer);
-
-            $first = $productCart = $cart->getProduct($productReference)->getValues();
 
             /** @var SkuskuCartProduct $productCart */
             if( $productCart = $cart->getProduct($productReference)->first() ){

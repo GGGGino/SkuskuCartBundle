@@ -3,11 +3,10 @@
 namespace GGGGino\SkuskuCartBundle\Model;
 
 /**
- * Interface SkuskuSupplierInterface
+ * Interface SkuskuLangInterface
  * @package GGGGino\SkuskuCartBundle\Model
- * @deprecated this isn't needed maybe
  */
-interface SkuskuSupplierInterface
+interface SkuskuLangInterface
 {
     /**
      * @return string
@@ -15,7 +14,12 @@ interface SkuskuSupplierInterface
     public function getName();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getActive();
+
+    /**
+     * @return string
+     */
+    public function getIsoCode();
 }

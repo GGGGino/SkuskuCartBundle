@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SkuskuCartProductBase
  * @ORM\MappedSuperclass()
  */
-abstract class SkuskuCartProductBase
+abstract class SkuskuCartProductBase implements SkuskuCartProductInterface
 {
     /**
      * @ORM\ManyToOne(targetEntity="SkuskuCart", inversedBy="products")
@@ -85,10 +85,14 @@ abstract class SkuskuCartProductBase
     }
 
     /**
-     * @return mixed
+     * Get the amount of price of the product
+     *
+     * @return float
      */
     public function getSubtotal()
     {
         return $this->product->getPrice() * $this->quantity;
     }
+
+    public function getProductAttribute(){}
 }
