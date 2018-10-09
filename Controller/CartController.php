@@ -21,7 +21,7 @@ class CartController extends Controller
         //$formData = new Vehicle(); // Your form data class. Has to be an object, won't work properly with an array.
 
         /** @var CartFlow $flow */
-        $flow = $this->get('skusku.form.flow.cart'); // must match the flow's service id
+        $flow = $this->get(CartFlow::class); // must match the flow's service id
         $flow->bind(null);
 
         // form of the current step

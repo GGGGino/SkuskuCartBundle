@@ -2,7 +2,9 @@
 
 namespace GGGGino\SkuskuCartBundle\Twig;
 
+use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
+use GGGGino\SkuskuCartBundle\Service\CartManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -18,27 +20,21 @@ class CartExtension extends AbstractExtension
     private $templating;
 
     /**
-     * @var EntityManager
+     * @var CartManager
      */
-    private $em;
-
-    /**
-     * @var TokenStorage
-     */
-    private $tokenStorage;
+    private $cartManager;
 
     private $templateFile = "GGGGinoSkuskuCartBundle:Cart:cart_preview.html.twig";
 
     /**
      * CartExtension constructor.
      * @param Environment $templating
-     * @param EntityManager $em
+     * @param CartManager $cartManager
      */
-    public function __construct(Environment $templating, EntityManager $em, TokenStorage $tokenStorage)
+    public function __construct(Environment $templating, CartManager $cartManager)
     {
         $this->templating = $templating;
-        $this->em = $em;
-        $this->tokenStorage = $tokenStorage;
+        $this->cartManager = $cartManager;
     }
 
     public function getFunctions()
@@ -55,10 +51,8 @@ class CartExtension extends AbstractExtension
         if( !$template )
             $template = $this->templateFile;
 
-        /** @var SkuskuCustomerInterface $user */
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $cart = $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')->findOneByCustomer($user);
+        /** @var SkuskuCart $cart */
+        $cart = $this->cartManager->getCartFromCustomer();
 
         return $this->templating->render($template, array(
             'cart' => $cart,
