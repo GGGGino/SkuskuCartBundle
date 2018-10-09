@@ -83,4 +83,12 @@ abstract class SkuskuCartProductBase
         $this->cart = $cart;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSubtotal()
+    {
+        return $this->product->getPrice() * $this->quantity;
+    }
 }

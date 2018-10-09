@@ -3,6 +3,7 @@
 namespace GGGGino\SkuskuCartBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,7 +24,7 @@ class SkuskuCart
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="SkuskuCartProduct", mappedBy="cart")
+     * @ORM\OneToMany(targetEntity="SkuskuCartProduct", mappedBy="cart", fetch="EXTRA_LAZY")
      */
     private $products;
 
@@ -123,11 +124,22 @@ class SkuskuCart
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @param SkuskuProductInterface $product
+     * @return mixed
+     */
+    public function getProduct(SkuskuProductInterface $product)
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq("product", $product));
+
+        return $this->products->matching($criteria);
     }
 
     /**
@@ -138,5 +150,15 @@ class SkuskuCart
     {
         $this->products = $products;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalPrice()
+    {
+        return array_reduce($this->getProducts()->toArray(), function($carry, SkuskuCartProduct $product) {
+            return $carry + ($product->getSubtotal());
+        }, 0);
     }
 }

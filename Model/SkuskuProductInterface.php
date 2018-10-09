@@ -9,6 +9,11 @@ namespace GGGGino\SkuskuCartBundle\Model;
 interface SkuskuProductInterface
 {
     /**
+     * @return integer
+     */
+    public function getId();
+
+    /**
      * @return SkuskuSupplierInterface
      */
     public function getSupplier();

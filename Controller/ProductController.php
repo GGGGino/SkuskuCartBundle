@@ -5,8 +5,10 @@ namespace GGGGino\SkuskuCartBundle\Controller;
 use Allyou\ManagementCafBundle\Entity\Product;
 use GGGGino\SkuskuCartBundle\Form\AddToCartType;
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
+use GGGGino\SkuskuCartBundle\Service\CartManager;
 use GGGGino\SkuskuCartBundle\Service\CRUDCart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +19,14 @@ class ProductController extends Controller
      * Cart page
      *
      * @Route("/products", name="products_page")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function productsAction(Request $request)
     {
+        /** @var CartManager $cartManager */
+        $cartManager = $this->get(CartManager::class);
+
         $productsAndForms = array();
 
         $products = $this->getDoctrine()
@@ -28,27 +35,12 @@ class ProductController extends Controller
 
         /** @var Product $product */
         foreach($products as $product) {
+            /** @var Form $addToCartForm */
             $addToCartForm = $this->createForm(AddToCartType::class, array(
                 'idProduct' => $product->getId()
             ));
 
-            $addToCartForm->handleRequest($request);
-
-            if ($addToCartForm->isSubmitted() && $addToCartForm->isValid()) {
-                // $form->getData() holds the submitted values
-                // but, the original `$task` variable has also been updated
-                $task = $addToCartForm->getData();
-
-                var_dump($task);exit;
-
-                // ... perform some action, such as saving the task to the database
-                // for example, if Task is a Doctrine entity, save it!
-                // $entityManager = $this->getDoctrine()->getManager();
-                // $entityManager->persist($task);
-                // $entityManager->flush();
-
-                return $this->redirectToRoute('products_page');
-            }
+            $cartManager->addProductToCart($request, $addToCartForm);
 
             $productsAndForms[] = array(
                 'product' => $product,

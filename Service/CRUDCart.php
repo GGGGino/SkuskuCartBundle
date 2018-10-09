@@ -4,6 +4,11 @@ namespace GGGGino\SkuskuCartBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Class CRUDCart
+ * @package GGGGino\SkuskuCartBundle\Service
+ * @deprecated Adesso uso il cartManager
+ */
 class CRUDCart
 {
     /**
