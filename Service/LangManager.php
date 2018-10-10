@@ -11,9 +11,10 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class LangManager
+class LangManager implements LangManagerInterface
 {
     /**
      * @var EntityManager
@@ -26,14 +27,21 @@ class LangManager
     private $tokenStorage;
 
     /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
      * CartExtension constructor.
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
+     * @param RequestStack $requestStack
      */
-    public function __construct(EntityManager $em, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $em, TokenStorage $tokenStorage, RequestStack $requestStack)
     {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -49,6 +57,12 @@ class LangManager
      */
     public function getCurrentLanguage()
     {
-        return $this->getActiveLanguages()[0];
+        /** @var string $localeIdentifier */
+        $localeIdentifier = $this->requestStack->getCurrentRequest()->getLocale();
+
+        /** @var SkuskuLangInterface $locale */
+        $locale = $this->em->getRepository(SkuskuLangInterface::class)->findOneByIdentifier($localeIdentifier);
+
+        return $locale;
     }
 }
