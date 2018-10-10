@@ -53,6 +53,15 @@ class CartManager
     }
 
     /**
+     *  Empty the cart tables
+     */
+    public function clearCart()
+    {
+        $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct cp')->execute();
+        $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuCart c')->execute();
+    }
+
+    /**
      * @param Request $request
      * @param FormInterface $form
      */

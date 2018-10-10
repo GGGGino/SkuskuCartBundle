@@ -14,7 +14,6 @@
         "craue/formflow-bundle": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.4",
         "liuggio/excelbundle": "^2.1",
-        "sylius/order-bundle": "^1.0",
         "symfony/http-kernel": "^3.3|^4.0"
     },
     "require-dev": {

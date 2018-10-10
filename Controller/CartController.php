@@ -5,6 +5,7 @@ namespace GGGGino\SkuskuCartBundle\Controller;
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
+use GGGGino\SkuskuCartBundle\Service\CartManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,6 +61,20 @@ class CartController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($product);
         $em->flush();
+
+        return new Response('ok');
+    }
+
+    /**
+     * Action temporanea per i test
+     *
+     * @Route("/cart/clear", name="clear_cart")
+     */
+    public function clearAction()
+    {
+        /** @var CartManager $cartManager */
+        $cartManager = $this->get(CartManager::class);
+        $cartManager->clearCart();
 
         return new Response('ok');
     }

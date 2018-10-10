@@ -1,6 +1,9 @@
 # SkuskuCartBundle
 
+[![Total Downloads](https://poser.pugx.org/ggggino/skuskucart-bundle/downloads)](https://packagist.org/packages/ggggino/skuskucart-bundle)
 [![Latest Stable Version](https://poser.pugx.org/ggggino/skuskucart-bundle/v/stable)](https://packagist.org/packages/ggggino/skuskucart-bundle)
+![Travis (.org)](https://img.shields.io/travis/GGGGino/SkuskuCartBundle.svg)
+
 
 Highly customizable cart management bundle for Symfony
 
@@ -131,5 +134,8 @@ doctrine:
 ### Cart page
 
 > /cart
+
+## Commands
+> bin/console ggggino_skusku:cart:clear
 
 Test taken from: https://github.com/nelmio/NelmioApiDocBundle
