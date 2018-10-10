@@ -14,6 +14,11 @@ interface SkuskuCartProductInterface
     public function getCart();
 
     /**
+     * @return SkuskuCartProductInterface
+     */
+    public function setCart($cart);
+
+    /**
      * @return SkuskuProductInterface
      */
     public function getProduct();

@@ -86,15 +86,24 @@ class CartManager
             /** @var SkuskuCart $cart */
             $cart = $this->getCartFromCustomer($customer);
 
+            if( !$cart ){
+                $cart = new SkuskuCart();
+                $cart->setDateAdd(new \DateTime());
+                $cart->setCustomer($customer);
+                $this->em->persist($cart);
+            }
+
+            $cart->setDateUpd(new \DateTime());
+
             /** @var SkuskuCartProduct $productCart */
             if( $productCart = $cart->getProduct($productReference)->first() ){
                 $productCart->setQuantity($productCart->getQuantity() + $quantity);
             }else{
                 $productCart = new SkuskuCartProduct();
-                $productCart->setCart($cart);
                 $productCart->setProduct($productReference);
                 $productCart->setQuantity($quantity);
 
+                $cart->addProduct($productCart);
                 $this->em->persist($productCart);
             }
 

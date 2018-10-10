@@ -167,6 +167,18 @@ class SkuskuCart
     }
 
     /**
+     * @param SkuskuCartProductInterface $product
+     * @return SkuskuCart
+     */
+    public function addProduct(SkuskuCartProductInterface $product)
+    {
+        $product->setCart($this);
+
+        $this->products[] = $product;
+        return $this;
+    }
+
+    /**
      * Get the total amount of the cart
      *
      * @return mixed
@@ -224,6 +236,16 @@ class SkuskuCart
     public function setLang($lang)
     {
         $this->lang = $lang;
+        return $this;
+    }
+
+    /**
+     * @param SkuskuCustomerInterface $customer
+     * @return SkuskuCart
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
         return $this;
     }
 }
