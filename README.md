@@ -25,3 +25,5 @@ Highly customizable cart management bundle for Symfony
         new GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle(),
     );
 ```
+
+Test taken from: https://github.com/nelmio/NelmioApiDocBundle

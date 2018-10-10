@@ -28,4 +28,4 @@ install:
   - composer install --optimize-autoloader --prefer-source
 
 script:
-  - vendor/bin/phpunit --verbose
+  - vendor/bin/simple-phpunit --verbose
