@@ -11,11 +11,11 @@ class CartFlow extends FormFlow
     {
         return array(
             array(
-                'label' => 'wheels',
+                'label' => 'cart',
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType',
             ),
             array(
-                'label' => 'engine',
+                'label' => 'payment',
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep2FormType',
                 'skip' => function($estimatedCurrentStepNumber, FormFlowInterface $flow) {
                     return $estimatedCurrentStepNumber > 1;

@@ -1,0 +1,21 @@
+.craue_formflow_steplist{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+}
+.craue_formflow_steplist li{
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 20px;
+}
+.craue_formflow_steplist li.craue_formflow_current_step{
+    font-weight: 700;
+}
+.craue_formflow_steplist li.craue_formflow_done_step{
+    color: green;
+}
+.craue_formflow_steplist li.craue_formflow_skipped_step{
+    color: red;
+}

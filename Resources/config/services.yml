@@ -1,4 +1,9 @@
 services:
+    GGGGino\SkuskuCartBundle\EventSubscriber\CurrencySubscriber:
+        arguments: ['%currency%']
+        # redundant if you're using autoconfigure
+        tags: [kernel.event_subscriber]
+
     GGGGino\SkuskuCartBundle\Form\CartFlow:
         class: GGGGino\SkuskuCartBundle\Form\CartFlow
         parent: craue.form.flow
@@ -8,9 +13,21 @@ services:
         public: true
         arguments: ['@doctrine.orm.default_entity_manager']
 
+    GGGGino\SkuskuCartBundle\Service\CartManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage']
+
+    GGGGino\SkuskuCartBundle\Service\CurrencyManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '@request_stack']
+
+    GGGGino\SkuskuCartBundle\Service\LangManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '@request_stack']
+
     GGGGino\SkuskuCartBundle\Twig\CartExtension:
         class: GGGGino\SkuskuCartBundle\Twig\CartExtension
         public: false
-        arguments: ['@twig', '@doctrine.orm.default_entity_manager', '@security.token_storage']
+        arguments: ['@twig', '@GGGGino\SkuskuCartBundle\Service\CartManager', '@GGGGino\SkuskuCartBundle\Service\CurrencyManager', '@GGGGino\SkuskuCartBundle\Service\LangManager']
         tags:
             - { name: twig.extension }

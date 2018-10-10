@@ -17,6 +17,7 @@
         z-index: 20;
         background: #FFFFFF;
         top: 100%;
+        left: -200px;
     }
     .cartPreview:hover .details{
         -webkit-transition: all .5s; /* Safari */
@@ -30,31 +31,46 @@
     <div class="right aligned column">
         <div id="skusku-cart-button" class="ui circular cart button">
             <i class="cart icon"></i>
-            <span id="skusku-cart-total">{{ cart.customer.username }}</span>
+            <span id="skusku-cart-total">{{ cart.getTotalQuantity() }} - {{ cart.getTotalPrice() }}€</span>
         </div>
         <div class="details">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">product</th>
-                    <th scope="col">price</th>
-                    <th scope="col">quantity</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for product in cart.products %}
+            {% if cart.products.count > 0 %}
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <th>{{ product.id }}</th>
-                        <td>{{ product.product.getTitle() }}</td>
-                        <td>{{ product.product.getPrice() }}€</td>
-                        <td>{{ product.quantity }}</td>
-                        <td><i data-idcartproducturl="{{ path('remove_item_from_cart', {'product': product.id}) }}" class="fa fa-trash"></i></td>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ 'product'|trans }}</th>
+                        <th scope="col">{{ 'price'|trans }}</th>
+                        <th scope="col">{{ 'quantity'|trans }}</th>
+                        <th scope="col">{{ 'subtotal'|trans }}</th>
+                        <th scope="col"></th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for product in cart.products %}
+                            <tr>
+                                <th>{{ product.id }}</th>
+                                <td>{{ product.product.getTitle() }}</td>
+                                <td>{{ product.product.getPrice() }}€</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>{{ product.getSubtotal() }}€</td>
+                                <td><i data-idcartproducturl="{{ path('remove_item_from_cart', {'product': product.id}) }}" class="fa fa-trash"></i></td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <th></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ cart.getTotalPrice() }}€</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <h2>No products in cart</h2>
+            {% endif %}
+            <a href="{{ path('cart_page') }}" class="btn btn-primary">Cart</a>
         </div>
     </div>
 </div>

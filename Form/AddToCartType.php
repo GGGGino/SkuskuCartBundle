@@ -14,7 +14,12 @@ class AddToCartType extends AbstractType
     {
         $builder
             ->add('idProduct', HiddenType::class)
-            ->add('quantity', IntegerType::class)
-            ->add('save', SubmitType::class);
+            ->add('quantity', IntegerType::class,
+                array(
+                    'label' => 'quantity'
+                ))
+            ->add('add', SubmitType::class, array(
+                'label' => 'add_to_cart'
+            ));
     }
 }

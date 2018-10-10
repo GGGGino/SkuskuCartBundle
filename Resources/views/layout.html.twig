@@ -29,6 +29,7 @@
 
     <!-- Custom Theme Style -->
     <link href="https://cdn.rawgit.com/puikinsh/gentelella/master/build/css/custom.min.css" rel="stylesheet">
+    <link href="{{ asset('bundles/gggginoskuskucart/skusku.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 
@@ -265,6 +266,15 @@
                                     </div>
                                 </li>
                             </ul>
+                        </li>
+                        <li>
+                            {{ render_preview_cart() }}
+                        </li>
+                        <li>
+                            {{ render_currency_cart() }}
+                        </li>
+                        <li>
+                            {{ render_lang_cart() }}
                         </li>
                     </ul>
                 </nav>
