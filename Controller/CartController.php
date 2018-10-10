@@ -63,4 +63,14 @@ class CartController extends Controller
 
         return new Response('ok');
     }
+
+    /**
+     * Action temporanea per i test
+     *
+     * @Route("/sample", name="sample")
+     */
+    public function sampleAction()
+    {
+        return new Response('oo');
+    }
 }
