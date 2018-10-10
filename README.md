@@ -1,6 +1,6 @@
 # SkuskuCartBundle
 
-Highly-customizable-mega-simple cart management bundle for Symfony.
+Highly customizable cart management bundle for Symfony
 
 ## License
 
@@ -8,23 +8,17 @@ Highly-customizable-mega-simple cart management bundle for Symfony.
 
 ## Installation
 
-**1**  Add this to your composer.json
-
-``` bash
-    composer install 
-``` 
-
-**2**  Add to composer.json to the `require` key
+**1**  Add bundle to your vendor
 
 ``` shell
-    $composer require ggggino/wordbundle
+    composer require ggggino/skuskucart-bundle
 ``` 
 
-**3** Register the bundle in ``app/AppKernel.php``
+**2** Register the bundle in ``app/AppKernel.php``
 
 ``` php
     $bundles = array(
         // ...
-        new GGGGino\WordBundle\GGGGinoWordBundle(),
+        new GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle(),
     );
 ```
