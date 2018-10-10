@@ -1,10 +1,13 @@
 # SkuskuCartBundle
 
+[![Latest Stable Version](https://poser.pugx.org/ggggino/skuskucart-bundle/v/stable)](https://packagist.org/packages/ggggino/skuskucart-bundle)
+
 Highly customizable cart management bundle for Symfony
+
 
 ## License
 
-[![License](https://poser.pugx.org/liuggio/ExcelBundle/license.png)](LICENSE)
+[![License](https://poser.pugx.org/ggggino/skuskucart-bundle/license)](LICENSE)
 
 ## Installation
 
