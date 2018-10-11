@@ -25,6 +25,11 @@ composer require ggggino/skuskucart-bundle
 ``` php
 $bundles = array(
     // ...
+    
+    // Multi step form
+    new Craue\FormFlowBundle\CraueFormFlowBundle(),
+    
+    // Cart bundle
     new GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle(),
 );
 ```
@@ -32,6 +37,7 @@ $bundles = array(
 ## Configuration
 
 ``` yml
+# config.yml
 parameters:
     locale: it
     currency: EUR
@@ -40,6 +46,7 @@ parameters:
 Add the target entities that replace the interfaces
 
 ``` yml
+# config.yml
 doctrine:
     orm:
         resolve_target_entities:
@@ -47,6 +54,15 @@ doctrine:
               GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuUser
               GGGGino\SkuskuCartBundle\Model\SkuskuCurrencyInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuCurrency
               GGGGino\SkuskuCartBundle\Model\SkuskuLangInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuLanguage
+``` 
+
+Add the basics routes
+
+``` yml
+# routing.yml
+skusku:
+    resource: "@GGGGinoSkuskuCartBundle/Controller/"
+    type:     annotation
 ``` 
 
 Al posto delle entità es. "GGGGino\SkuskuCartBundle\Entity\SkuskuProduct" 
