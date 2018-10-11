@@ -52,14 +52,14 @@ class SkuskuCart
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_add", type="datetime")
+     * @ORM\Column(name="date_add", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateAdd;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_upd", type="datetime")
+     * @ORM\Column(name="date_upd", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateUpd;
 

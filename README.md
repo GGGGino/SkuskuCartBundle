@@ -154,4 +154,10 @@ doctrine:
 ## Commands
 > bin/console ggggino_skusku:cart:clear
 
+Clear all the skuskutables
+
+> bin/console ggggino_skusku:currency:create - DEV
+
+Create a row of the given entity
+
 Test taken from: https://github.com/nelmio/NelmioApiDocBundle
