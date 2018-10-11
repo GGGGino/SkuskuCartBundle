@@ -20,10 +20,10 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Class CartCommand
+ * Class CartClearCommand
  * @package GGGGino\SkuskuCartBundle\Command
  */
-class CartCommand extends ContainerAwareCommand
+class CartClearCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -32,8 +32,8 @@ class CartCommand extends ContainerAwareCommand
     {
         $this
             ->setName('ggggino_skusku:cart:clear')
-            /*->setDescription('Generates an admin class based on the given model class')
-            ->addArgument('model', InputArgument::REQUIRED, 'The fully qualified model class')
+            ->setDescription('Empty the entities of the bundle')
+            /*->addArgument('model', InputArgument::REQUIRED, 'The fully qualified model class')
             ->addOption('bundle', 'b', InputOption::VALUE_OPTIONAL, 'The bundle name')
             ->addOption('admin', 'a', InputOption::VALUE_OPTIONAL, 'The admin class basename')
             ->addOption('controller', 'c', InputOption::VALUE_OPTIONAL, 'The controller class basename')

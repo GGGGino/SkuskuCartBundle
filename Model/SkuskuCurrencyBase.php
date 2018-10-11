@@ -34,37 +34,37 @@ abstract class SkuskuCurrencyBase
     /**
      * @var int
      *
-     * @ORM\Column(name="blank", type="smallint")
+     * @ORM\Column(name="blank", type="smallint", options={"default" : 0})
      */
-    protected $blank;
+    protected $blank = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="format", type="smallint")
+     * @ORM\Column(name="format", type="smallint", options={"default" : 0})
      */
-    protected $format;
+    protected $format = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="decimals", type="smallint")
+     * @ORM\Column(name="decimals", type="smallint", options={"default" : 0})
      */
-    protected $decimals;
+    protected $decimals = 0;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="conversion_rate", type="decimal", precision=13, scale=6)
+     * @ORM\Column(name="conversion_rate", type="decimal", precision=13, scale=6, options={"default" : 0})
      */
-    protected $conversionRate;
+    protected $conversionRate = 0;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="deleted", type="boolean")
+     * @ORM\Column(name="deleted", type="boolean", options={"default" : 0})
      */
-    protected $deleted;
+    protected $deleted = 0;
 
     /**
      * Set name.

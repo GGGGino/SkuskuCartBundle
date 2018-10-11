@@ -9,9 +9,9 @@ services:
         parent: craue.form.flow
         public: true
 
-    GGGGino\SkuskuCartBundle\Service\CRUDCart:
+    GGGGino\SkuskuCartBundle\Service\SkuskuHelper:
         public: true
-        arguments: ['@doctrine.orm.default_entity_manager']
+        arguments: ['@doctrine.orm.default_entity_manager', '%skusku_abstract_entities%']
 
     GGGGino\SkuskuCartBundle\Service\CartManager:
         public: true

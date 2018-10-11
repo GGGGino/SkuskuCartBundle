@@ -22,4 +22,19 @@ interface SkuskuCurrencyInterface
      * @return string
      */
     public function getSign();
+
+    /**
+     * @return SkuskuCurrencyInterface
+     */
+    public function setName($name);
+
+    /**
+     * @return SkuskuCurrencyInterface
+     */
+    public function setIsoCode($name);
+
+    /**
+     * @return SkuskuCurrencyInterface
+     */
+    public function setSign($name);
 }
