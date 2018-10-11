@@ -101,6 +101,10 @@ class CartExtension extends AbstractExtension
         /** @var SkuskuCart $cart */
         $cart = $this->cartManager->getCartFromCustomer();
 
+        if( !$cart ){
+            $cart = new SkuskuCart();
+        }
+
         return $this->templating->render($template, array(
             'cart' => $cart,
         ));
