@@ -9,6 +9,8 @@
             "email": "david.ginanni@gmail.com"
         }
     ],
+    "keywords": ["cart", "bundle", "symfony", "symfony3", "symfony4"],
+    "homepage": "https://github.com/GGGGino",
     "require": {
         "php": "^7.0",
         "craue/formflow-bundle": "^3.0",
