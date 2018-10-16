@@ -12,7 +12,7 @@
     "keywords": ["cart", "bundle", "symfony", "symfony3", "symfony4"],
     "homepage": "https://github.com/GGGGino",
     "require": {
-        "php": "^7.0",
+        "php": "^5.6|^7.0",
         "craue/formflow-bundle": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.4",
         "liuggio/excelbundle": "^2.1",
