@@ -2,7 +2,6 @@
 
 namespace GGGGino\SkuskuCartBundle\DependencyInjection;
 
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Configuration;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -22,6 +21,12 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('ggggino_skuskucart.allow_anonymous_shop', $config['allow_anonymous_shop']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
@@ -58,5 +63,13 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
         $arrayEntities = $doctrineConfig[1]['orm']['resolve_target_entities'];
 
         $container->setParameter('skusku_abstract_entities', $arrayEntities);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAlias()
+    {
+        return 'ggggino_skuskucart';
     }
 }

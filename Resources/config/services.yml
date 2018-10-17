@@ -15,7 +15,7 @@ services:
 
     GGGGino\SkuskuCartBundle\Service\CartManager:
         public: true
-        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage']
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '%ggggino_skuskucart.allow_anonymous_shop%']
 
     GGGGino\SkuskuCartBundle\Service\CurrencyManager:
         public: true

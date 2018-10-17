@@ -6,6 +6,7 @@ use Doctrine\Bundle\CouchDBBundle\DependencyInjection\Compiler\DoctrineCouchDBMa
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Doctrine\Bundle\MongoDBBundle\DependencyInjection\Compiler\DoctrineMongoDBMappingsPass;
 use GGGGino\SkuskuCartBundle\DependencyInjection\Compiler\DoctrineRelatedPass;
+use GGGGino\SkuskuCartBundle\DependencyInjection\GGGGinoSkuskuCartExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -51,5 +52,16 @@ class GGGGinoSkuskuCartBundle extends Bundle
     public function getParent()
     {
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getContainerExtension()
+    {
+        if (null === $this->extension) {
+            $this->extension = new GGGGinoSkuskuCartExtension();
+        }
+        return $this->extension;
     }
 }

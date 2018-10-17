@@ -13,6 +13,7 @@ abstract class SkuskuCartProductBase implements SkuskuCartProductInterface
     /**
      * @ORM\ManyToOne(targetEntity="SkuskuCart", inversedBy="products")
      * @ORM\JoinColumn(name="cart_id", referencedColumnName="id")
+     * @var SkuskuCart
      */
     protected $cart;
 
@@ -29,6 +30,11 @@ abstract class SkuskuCartProductBase implements SkuskuCartProductInterface
      * @ORM\Column(name="quantity", type="integer")
      */
     private $quantity;
+
+    public function __toString()
+    {
+        return "SkuskuCartProductBase";
+    }
 
     /**
      * @return mixed

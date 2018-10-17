@@ -11,6 +11,8 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CartManager
 {
@@ -28,14 +30,20 @@ class CartManager
     private $handled = false;
 
     /**
+     * @var bool
+     */
+    private $allowAnonymous;
+
+    /**
      * CartExtension constructor.
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
      */
-    public function __construct(EntityManager $em, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $em, TokenStorage $tokenStorage, $allowAnonymous = true)
     {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
+        $this->allowAnonymous = $allowAnonymous;
     }
 
     /**
@@ -82,6 +90,12 @@ class CartManager
             $customer = $this->tokenStorage->getToken()->getUser();
             /** @var SkuskuProductInterface $productReference */
             $productReference = $this->em->getReference(SkuskuProductInterface::class, $idProduct);
+
+            if( !($customer instanceof UserInterface) )
+                $customer = null;
+
+            if( !$this->allowAnonymous && !$customer )
+                throw new AccessDeniedException("Anonymous users cannot buy");
 
             /** @var SkuskuCart $cart */
             $cart = $this->getCartFromCustomer($customer);

@@ -36,6 +36,16 @@ $bundles = array(
 
 ## Configuration
 
+Bundle configuration
+
+``` yml
+# config.yml
+ggggino_skuskucart:
+    allow_anonymous_shop: true
+``` 
+
+Extra configs
+
 ``` yml
 # config.yml
 parameters:
