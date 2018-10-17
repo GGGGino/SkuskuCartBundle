@@ -22,6 +22,10 @@
                 <source>subtotal</source>
                 <target>Subtotal</target>
             </trans-unit>
+            <trans-unit id="form.credit_card.holder">
+                <source>form.credit_card.holder</source>
+                <target>Card Nominee</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

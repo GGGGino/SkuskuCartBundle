@@ -10,24 +10,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 class CartForm
 {
     /**
-     * @var SkuskuCartProductInterface
-     * @deprecated
-     */
-    private $cartProduct;
-
-    /**
      * @var SkuskuCart
      */
     private $cart;
 
     /**
-     * CartForm constructor.
-     * @param SkuskuCartProductInterface $cartProduct
+     * @var string[]
      */
-    public function __construct(SkuskuCart $cart, SkuskuCartProductInterface $cartProduct = null)
+    private $paymentsMethod;
+
+    /**
+     * CartForm constructor.
+     * @param SkuskuCart $cart
+     */
+    public function __construct(SkuskuCart $cart)
     {
-        $this->cartProduct = $cartProduct;
         $this->cart = $cart;
+        $this->paymentsMethod = array(
+
+        );
     }
 
     /**
@@ -70,5 +71,23 @@ class CartForm
     public function getTotalPrice()
     {
         return $this->cart->getTotalPrice();
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getPaymentsMethod()
+    {
+        return $this->paymentsMethod;
+    }
+
+    /**
+     * @param \string[] $paymentsMethod
+     * @return CartForm
+     */
+    public function setPaymentsMethod($paymentsMethod)
+    {
+        $this->paymentsMethod = $paymentsMethod;
+        return $this;
     }
 }

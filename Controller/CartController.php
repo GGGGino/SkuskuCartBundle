@@ -43,8 +43,8 @@ class CartController extends Controller
             } else {
                 // flow finished
                 $em = $this->getDoctrine()->getManager();
-                //$em->persist($formData);
-                //$em->flush();
+                $em->persist($formData->getCart());
+                $em->flush();
 
                 $flow->reset(); // remove step data from the session
 

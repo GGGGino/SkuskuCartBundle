@@ -57,6 +57,12 @@ class CartManager
             $customer = $this->tokenStorage->getToken()->getUser();
         }
 
+        if( !($customer instanceof UserInterface) )
+            $customer = null;
+
+        if( !$this->allowAnonymous && !$customer )
+            throw new AccessDeniedException("Anonymous users cannot buy");
+
         return $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')->findOneByCustomer($customer);
     }
 

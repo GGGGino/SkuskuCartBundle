@@ -15,11 +15,12 @@ class CartFlow extends FormFlow
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType',
             ),
             array(
-                'label' => 'payment',
+                'label' => 'chosePayment',
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep2FormType',
-                'skip' => function($estimatedCurrentStepNumber, FormFlowInterface $flow) {
-                    return $estimatedCurrentStepNumber > 1;
-                },
+            ),
+            array(
+                'label' => 'payment',
+                'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType'
             ),
             array(
                 'label' => 'confirmation',

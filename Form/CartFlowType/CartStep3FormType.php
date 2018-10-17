@@ -2,22 +2,21 @@
 
 namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 
-use Payum\Core\Bridge\Symfony\Form\Type\GatewayFactoriesChoiceType;
+use Payum\Core\Bridge\Symfony\Form\Type\CreditCardType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class CartStep2FormType extends AbstractType
+class CartStep3FormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('paymentMethod', GatewayFactoriesChoiceType::class, array(
-            'mapped' => false,
-            'data' => array()
+        $builder->add('engine', CreditCardType::class, array(
+            'mapped' => false
         ));
     }
 
     public function getBlockPrefix()
     {
-        return 'choosePayment';
+        return 'cartStep3';
     }
 }
