@@ -2,8 +2,7 @@
 
 namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 
-use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
-use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductBase;
+use GGGGino\SkuskuCartBundle\Form\CartProductType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,15 +12,18 @@ class CartStep1FormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $validValues = array(2, 4);
-        $tempProd = new SkuskuCartProduct();
-        $data = array(
-            $tempProd,
-            $tempProd
-        );
-        $builder->add('numberOfWheels', CollectionType::class, array(
-            //'data_class' => SkuskuCartProductBase::class,
-            'data' => $data
+        $builder->add('cartProducts', CollectionType::class, array(
+            'entry_type' => CartProductType::class,
+            'label' => false,
+            'attr' => array(
+                'class' => 'step1'
+            )
+        ))
+        ->add('getTotalQuantity', null, array(
+            'disabled' => true
+        ))
+        ->add('getTotalPrice', null, array(
+            'disabled' => true
         ));
     }
 
@@ -30,6 +32,8 @@ class CartStep1FormType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefaults(array(
+        ));
     }
 
     public function getBlockPrefix()

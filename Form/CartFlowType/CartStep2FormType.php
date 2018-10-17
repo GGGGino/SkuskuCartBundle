@@ -16,6 +16,6 @@ class CartStep2FormType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'cartStep1';
+        return 'cartStep2';
     }
 }

@@ -2,7 +2,9 @@
 
 namespace GGGGino\SkuskuCartBundle\Controller;
 
+use GGGGino\SkuskuCartBundle\Entity\CartForm;
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
+use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
@@ -19,11 +21,16 @@ class CartController extends Controller
      */
     public function cartAction()
     {
-        //$formData = new Vehicle(); // Your form data class. Has to be an object, won't work properly with an array.
+        /** @var CartManager $cartManager */
+        $cartManager = $this->get(CartManager::class);
+        /** @var SkuskuCart $cart */
+        $cart = $cartManager->getCartFromCustomer();
+
+        $formData = new CartForm($cart);
 
         /** @var CartFlow $flow */
         $flow = $this->get(CartFlow::class); // must match the flow's service id
-        $flow->bind(null);
+        $flow->bind($formData);
 
         // form of the current step
         $form = $flow->createForm();

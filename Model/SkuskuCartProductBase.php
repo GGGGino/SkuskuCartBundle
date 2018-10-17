@@ -97,7 +97,7 @@ abstract class SkuskuCartProductBase implements SkuskuCartProductInterface
      */
     public function getSubtotal()
     {
-        return $this->product->getPrice() * $this->quantity;
+        return $this->getProduct()->getPrice() * $this->quantity;
     }
 
     public function getProductAttribute(){}

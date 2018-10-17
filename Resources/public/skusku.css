@@ -19,3 +19,12 @@
 .craue_formflow_steplist li.craue_formflow_skipped_step{
     color: red;
 }
+
+/* Form cart */
+.step1 > .form-group > div{
+    display: flex;
+    justify-content: space-between;
+}
+.step1 > .form-group > div > .form-group{
+    width: 32%;
+}
