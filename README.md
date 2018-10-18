@@ -36,12 +36,22 @@ $bundles = array(
 
 ## Configuration
 
-Bundle configuration
+Bundle complete configuration
 
 ``` yml
 # config.yml
 ggggino_skuskucart:
-    allow_anonymous_shop: true
+    allow_anonymous_shop: false
+    stepform:
+        cart:
+            form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType
+            label: Step 1
+        chosePayment:
+            form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep2FormType
+            label: Step 2
+        payment:
+            form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType
+            label: Step 3
 ``` 
 
 Extra configs
@@ -162,16 +172,56 @@ doctrine:
 > /cart
 
 ## Commands
+
 > bin/console ggggino_skusku:cart:clear
 
 Clear all the skuskutables
 
-> bin/console ggggino_skusku:currency:create - DEV
+> bin/console ggggino_skusku:currency:create
 
-Create a row of the given entity
+Create a row of the given entity - DEV
+
+## Configuration details
+
+You can decide if even the anonymous user can shop
+
+``` yml
+# config.yml
+ggggino_skuskucart:
+    allow_anonymous_shop: false
+``` 
+
+Chose between use the default steps and create new ones,
+remember that for the "cart|chosePayment|payment" you can only override
+configs
+
+``` yml
+# config.yml
+ggggino_skuskucart:
+    stepform:
+        cart:
+            form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType
+            label: Step 1
+        chosePayment:
+            form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep2FormType
+            label: Step 2
+        payment:
+            form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType
+            label: Step 3
+``` 
+
+If you need more customization in the formstep you can override it.
+Your CartFlow needs only to inherit 
+
+``` yml
+# config.yml
+ggggino_skuskucart:
+    stepform_class: GGGGino\SkuskuCartBundle\Form\CartFlow
+``` 
 
 ## TODO
 
-- API per creazione di carrelli
+- API for creating cart
+- Ordering stepform items
 
 Test taken from: https://github.com/nelmio/NelmioApiDocBundle

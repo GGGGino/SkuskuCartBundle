@@ -27,6 +27,10 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
 
         $container->setParameter('ggggino_skuskucart.allow_anonymous_shop', $config['allow_anonymous_shop']);
 
+        $container->setParameter('ggggino_skuskucart.stepform', $config['stepform']);
+
+        $container->setParameter('ggggino_skuskucart.stepform_class', $config['stepform_class']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 

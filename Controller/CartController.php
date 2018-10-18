@@ -8,6 +8,7 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
+use Payum\Core\Gateway;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,13 +28,17 @@ class CartController extends Controller
     {
         /** @var CartManager $cartManager */
         $cartManager = $this->get(CartManager::class);
+
+        /** @var string $cartFlowClass */
+        $cartFlowClass = $this->getParameter('ggggino_skuskucart.stepform_class');
+
         /** @var SkuskuCart $cart */
         $cart = $cartManager->getCartFromCustomer();
 
         $formData = new CartForm($cart);
 
         /** @var CartFlow $flow */
-        $flow = $this->get(CartFlow::class); // must match the flow's service id
+        $flow = $this->get($cartFlowClass); // must match the flow's service id
         $flow->bind($formData);
 
         // form of the current step
@@ -50,6 +55,7 @@ class CartController extends Controller
                 $finalCart = $formData->getCart();
 
                 $em = $this->getDoctrine()->getManager();
+
                 $em->persist($finalCart);
 
                 $payment = new SkuskuPayment();
@@ -60,10 +66,12 @@ class CartController extends Controller
                 $payment->setClientId($finalCart->getCustomer());
                 $payment->setClientEmail($finalCart->getCustomer()->getEmail());
 
+                /** @var Gateway $gateway */
                 $gateway = $this->get('payum')->getGateway('offline');
                 $gateway->execute(new Capture($payment));
 
-                $em->flush();
+                // commento il flush perchè sembra che lo faccia già in $gateway->execute
+                // $em->flush();
 
                 $flow->reset(); // remove step data from the session
 

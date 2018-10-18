@@ -5,8 +5,9 @@ services:
         tags: [kernel.event_subscriber]
 
     GGGGino\SkuskuCartBundle\Form\CartFlow:
-        class: GGGGino\SkuskuCartBundle\Form\CartFlow
         parent: craue.form.flow
+        class: GGGGino\SkuskuCartBundle\Form\CartFlow
+        arguments: ['%ggggino_skuskucart.stepform%']
         public: true
 
     GGGGino\SkuskuCartBundle\Service\SkuskuHelper:

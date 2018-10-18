@@ -32,7 +32,6 @@ class CartForm
     public function __construct(SkuskuCart $cart)
     {
         $this->cart = $cart;
-        $this->paymentMethod;
     }
 
     /**
