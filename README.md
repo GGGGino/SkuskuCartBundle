@@ -170,4 +170,8 @@ Clear all the skuskutables
 
 Create a row of the given entity
 
+## TODO
+
+- API per creazione di carrelli
+
 Test taken from: https://github.com/nelmio/NelmioApiDocBundle

@@ -11,6 +11,10 @@ use GGGGino\SkuskuCartBundle\Service\CartManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
+use Payum\Core\Reply\HttpRedirect;
+use Payum\Core\Reply\HttpResponse;
+use Payum\Core\Request\Capture;
 
 class CartController extends Controller
 {
@@ -42,8 +46,23 @@ class CartController extends Controller
                 $form = $flow->createForm();
             } else {
                 // flow finished
+                /** @var SkuskuCart $finalCart */
+                $finalCart = $formData->getCart();
+
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($formData->getCart());
+                $em->persist($finalCart);
+
+                $payment = new SkuskuPayment();
+                $payment->setNumber(uniqid());
+                $payment->setCurrencyCode($finalCart->getCurrency()->getIsoCode());
+                $payment->setTotalAmount($finalCart->getTotalPrice()); // 1.23 EUR
+                $payment->setDescription($finalCart->getTotalQuantity());
+                $payment->setClientId($finalCart->getCustomer());
+                $payment->setClientEmail($finalCart->getCustomer()->getEmail());
+
+                $gateway = $this->get('payum')->getGateway('offline');
+                $gateway->execute(new Capture($payment));
+
                 $em->flush();
 
                 $flow->reset(); // remove step data from the session

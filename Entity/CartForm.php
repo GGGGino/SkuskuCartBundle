@@ -7,6 +7,12 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * Entità usata per la gestione del form multistep
+ *
+ * Class CartForm
+ * @package GGGGino\SkuskuCartBundle\Entity
+ */
 class CartForm
 {
     /**
@@ -15,9 +21,9 @@ class CartForm
     private $cart;
 
     /**
-     * @var string[]
+     * @var string
      */
-    private $paymentsMethod;
+    private $paymentMethod;
 
     /**
      * CartForm constructor.
@@ -26,9 +32,7 @@ class CartForm
     public function __construct(SkuskuCart $cart)
     {
         $this->cart = $cart;
-        $this->paymentsMethod = array(
-
-        );
+        $this->paymentMethod;
     }
 
     /**
@@ -74,20 +78,20 @@ class CartForm
     }
 
     /**
-     * @return \string[]
+     * @return \string
      */
-    public function getPaymentsMethod()
+    public function getPaymentMethod()
     {
-        return $this->paymentsMethod;
+        return $this->paymentMethod;
     }
 
     /**
-     * @param \string[] $paymentsMethod
+     * @param \string $paymentMethod
      * @return CartForm
      */
-    public function setPaymentsMethod($paymentsMethod)
+    public function setPaymentMethod($paymentMethod)
     {
-        $this->paymentsMethod = $paymentsMethod;
+        $this->paymentMethod = $paymentMethod;
         return $this;
     }
 }

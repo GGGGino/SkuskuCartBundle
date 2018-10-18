@@ -9,12 +9,6 @@ services:
         parent: craue.form.flow
         public: true
 
-    Payum\Core\Bridge\Symfony\Form\Type\GatewayFactoriesChoiceType:
-        arguments:
-            - [{ foo: 'Foo Factory' }, { bar: 'Foo Factory' }]
-        tags:
-            - { name: form.type }
-
     GGGGino\SkuskuCartBundle\Service\SkuskuHelper:
         public: true
         arguments: ['@doctrine.orm.default_entity_manager', '%skusku_abstract_entities%']

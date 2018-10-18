@@ -60,7 +60,8 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
     {
         $doctrineConfig = $container->getExtensionConfig('doctrine');
 
-        $arrayEntities = $doctrineConfig[1]['orm']['resolve_target_entities'];
+        $arrayEntities = array_merge(...$doctrineConfig);
+        $arrayEntities = $arrayEntities['orm']['resolve_target_entities'];
 
         $container->setParameter('skusku_abstract_entities', $arrayEntities);
     }
