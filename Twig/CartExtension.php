@@ -72,6 +72,9 @@ class CartExtension extends AbstractExtension
         $this->langManager = $langManager;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getFunctions()
     {
         return array(
@@ -113,7 +116,7 @@ class CartExtension extends AbstractExtension
     /**
      * Render the currency list
      *
-     * @param null $template
+     * @param string $template
      * @return string
      */
     public function renderCurrencyCart($template = null)

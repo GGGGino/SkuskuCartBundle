@@ -18,6 +18,10 @@ abstract class CartFlowBase extends FormFlow
      */
     protected $configSteps;
 
+    /**
+     * CartFlowBase constructor.
+     * @param array $configSteps
+     */
     public function __construct(array $configSteps)
     {
         $this->configSteps = $configSteps;
