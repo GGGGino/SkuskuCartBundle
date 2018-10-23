@@ -67,6 +67,16 @@ class CartManager
     }
 
     /**
+     * Aggiungo il carrello alla coda delle entita da processare di doctrine
+     *
+     * @param SkuskuCart $cart
+     */
+    public function saveCart(SkuskuCart $cart)
+    {
+        $this->em->persist($cart);
+    }
+
+    /**
      *  Empty the cart tables
      */
     public function clearCart()

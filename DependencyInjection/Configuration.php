@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ggggino_skuskucart');
 
+        /** @var array $defaultSteps gli step minimi e di default */
         $defaultSteps = array(
             'cart' => array(
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType',
@@ -29,6 +30,11 @@ class Configuration implements ConfigurationInterface
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType',
                 'label' => 'Payment'
             )
+        );
+
+        /** @var array $defaultTemplates i template minimi */
+        $defaultTemplates = array(
+            'cart_layout' => 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
         );
 
         $rootNode
@@ -52,25 +58,18 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                 ->end()
+                ->arrayNode('templates')
+                    ->defaultValue($defaultTemplates)
+                    ->treatNullLike($defaultTemplates)
+                    ->scalarPrototype()->end()
+                    ->beforeNormalization()
+                        ->always(function($items) use ($defaultTemplates){
+                            return array_merge($defaultTemplates, $items);
+                        })
+                    ->end()
+                ->end()
             ->end()
         ;
-
-        /*
-                    ->defaultValue(array(
-                        'cart' => array(
-                            'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType',
-                            'label' => 'Cart resume'
-                        ),
-                        'chosePayment' => array(
-                            'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep2FormType',
-                            'label' => 'Chose payment'
-                        ),
-                        'payment' => array(
-                            'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType',
-                            'label' => 'Payment'
-                        )
-                    ))
-         */
 
         return $treeBuilder;
     }

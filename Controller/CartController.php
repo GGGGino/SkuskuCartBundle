@@ -32,6 +32,9 @@ class CartController extends Controller
         /** @var string $cartFlowClass */
         $cartFlowClass = $this->getParameter('ggggino_skuskucart.stepform_class');
 
+        /** @var string $cartTemplate */
+        $cartTemplate = $this->getParameter('ggggino_skuskucart.templates.cart_layout');
+
         /** @var SkuskuCart $cart */
         $cart = $cartManager->getCartFromCustomer();
 
@@ -43,43 +46,10 @@ class CartController extends Controller
 
         // form of the current step
         $form = $flow->createForm();
-        if ($flow->isValid($form)) {
-            $flow->saveCurrentStepData($form);
 
-            if ($flow->nextStep()) {
-                // form for the next step
-                $form = $flow->createForm();
-            } else {
-                // flow finished
-                /** @var SkuskuCart $finalCart */
-                $finalCart = $formData->getCart();
+        $form = $flow->handleSubmit($form, $formData);
 
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($finalCart);
-
-                $payment = new SkuskuPayment();
-                $payment->setNumber(uniqid());
-                $payment->setCurrencyCode($finalCart->getCurrency()->getIsoCode());
-                $payment->setTotalAmount($finalCart->getTotalPrice()); // 1.23 EUR
-                $payment->setDescription($finalCart->getTotalQuantity());
-                $payment->setClientId($finalCart->getCustomer());
-                $payment->setClientEmail($finalCart->getCustomer()->getEmail());
-
-                /** @var Gateway $gateway */
-                $gateway = $this->get('payum')->getGateway('offline');
-                $gateway->execute(new Capture($payment));
-
-                // commento il flush perchè sembra che lo faccia già in $gateway->execute
-                // $em->flush();
-
-                $flow->reset(); // remove step data from the session
-
-                return $this->redirect($this->generateUrl('cart_page')); // redirect when done
-            }
-        }
-
-        return $this->render('GGGGinoSkuskuCartBundle::cart_page.html.twig', array(
+        return $this->render($cartTemplate, array(
             'form' => $form->createView(),
             'flow' => $flow,
         ));

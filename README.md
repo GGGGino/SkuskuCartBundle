@@ -52,6 +52,8 @@ ggggino_skuskucart:
         payment:
             form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType
             label: Step 3
+    templates:
+        cart_layout: 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
 ``` 
 
 Extra configs
@@ -217,6 +219,15 @@ Your CartFlow needs only to inherit
 # config.yml
 ggggino_skuskucart:
     stepform_class: GGGGino\SkuskuCartBundle\Form\CartFlow
+``` 
+
+If you need to change the templates
+
+``` yml
+# config.yml
+ggggino_skuskucart:
+    templates:
+        cart_layout: 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
 ``` 
 
 ## TODO
