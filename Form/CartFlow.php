@@ -4,6 +4,8 @@ namespace GGGGino\SkuskuCartBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
+use GGGGino\SkuskuCartBundle\Event\PostSubmitCartEvent;
+use GGGGino\SkuskuCartBundle\Event\PreSubmitCartEvent;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
@@ -17,6 +19,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class CartFlow extends CartFlowBase
 {
+    const PRE_SUBMIT = 'skusku_cart.pre_submit';
+
+    const POST_SUBMIT = 'skusku_cart.post_submit';
+
     /**
      * @var CartManager
      */
@@ -63,6 +69,11 @@ class CartFlow extends CartFlowBase
                 /** @var SkuskuCart $finalCart */
                 $finalCart = $formData->getCart();
 
+                if ($this->hasListeners(self::PRE_SUBMIT)) {
+                    $event = new PreSubmitCartEvent($this, $formData);
+                    $this->eventDispatcher->dispatch(self::PRE_SUBMIT, $event);
+                }
+
                 $this->cartManager->saveCart($finalCart);
 
                 $payment = new SkuskuPayment();
@@ -79,6 +90,12 @@ class CartFlow extends CartFlowBase
 
                 // commento il flush perchè sembra che lo faccia già in $gateway->execute
                 // $em->flush();
+
+
+                if ($this->hasListeners(self::POST_SUBMIT)) {
+                    $event = new PostSubmitCartEvent($this, $formData);
+                    $this->eventDispatcher->dispatch(self::POST_SUBMIT, $event);
+                }
 
                 $this->reset(); // remove step data from the session
 

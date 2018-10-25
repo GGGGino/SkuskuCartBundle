@@ -230,6 +230,13 @@ ggggino_skuskucart:
         cart_layout: 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
 ``` 
 
+## Events
+
+| Name | Constant | Argument passed | Description |
+| --- | --- | --- | ---|
+| skusku_cart.pre_submit | `CartFlow::PRE_SUBMIT` | `CartForm` | Here you can modify entities or do custom action before the persist |
+| skusku_cart.post_submit | `CartFlow::POST_SUBMIT` | `CartForm` | Here you can do custom action after the persist |
+
 ## TODO
 
 - API for creating cart
