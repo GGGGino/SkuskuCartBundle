@@ -16,7 +16,8 @@
         "craue/formflow-bundle": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.4",
         "liuggio/excelbundle": "^2.1",
-        "symfony/http-kernel": "^3.3|^4.0"
+        "symfony/http-kernel": "^3.3|^4.0",
+        "payum/payum-bundle": "^2.3"
     },
     "require-dev": {
         "symfony/templating": "^3.3|^4.0",

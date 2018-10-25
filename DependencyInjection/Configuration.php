@@ -39,7 +39,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('allow_anonymous_shop')->end()
+                ->booleanNode('allow_anonymous_shop')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('stepform_class')
                     ->defaultValue('GGGGino\SkuskuCartBundle\Form\CartFlow')
                 ->end()
