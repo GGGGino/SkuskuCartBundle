@@ -1,0 +1,77 @@
+parameters:
+    locale:            'en'
+    secret:            'ThisTokenIsNotSoSecretChangeIt'
+    currency: EUR
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    test: ~
+    session:
+        storage_id: 'session.storage.mock_file'
+    secret:          '%secret%'
+    router:          { resource: '%kernel.root_dir%/config/routing.yml' }
+    default_locale:  '%locale%'
+    templating:
+        engines:                                          [ 'twig']
+    form:                                                 true
+    csrf_protection:                                      true
+    validation:                                           { enable_annotations: true }
+
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '127.0.0.1'
+        port: null
+        dbname: gestionalone_master
+        user: root
+        password: gino1992
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.project_dir%/var/data/data.sqlite"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        auto_mapping: true
+        resolve_target_entities:
+              GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuProduct
+              GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuUser
+              GGGGino\SkuskuCartBundle\Model\SkuskuCurrencyInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuCurrency
+              GGGGino\SkuskuCartBundle\Model\SkuskuLangInterface: GGGGino\SkuskuCartBundle\Entity\SkuskuLanguage
+
+security:
+    providers:
+        in_memory:
+            memory: ~
+    firewalls:
+        main:
+            anonymous: ~
+
+payum:
+    storages:
+        Payum\Core\Model\ArrayObject:
+            filesystem:
+                storage_dir: '%kernel.cache_dir%'
+                id_property: 'id'
+
+    security:
+        token_storage:
+            Payum\Core\Model\Token:
+                filesystem:
+                    id_property: 'hash'
+                    storage_dir: '%kernel.cache_dir%'
+
+    gateways:
+        fooGateway:
+            factory: 'offline'
+
+        barGateway:
+            factory: 'paypal_express_checkout'
+            username: 'aUsername'
+            password: 'aPassword'
+            signature: 'aSignature'
+            sandbox: true

@@ -33,9 +33,13 @@ class TestKernel extends Kernel
     {
         $bundles = [
             new FrameworkBundle(),
+            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new TwigBundle(),
+            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new SensioFrameworkExtraBundle(),
-            new TestBundle(),
+            new \Craue\FormFlowBundle\CraueFormFlowBundle(),
+            new \Payum\Bundle\PayumBundle\PayumBundle(),
+            new \GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle()
         ];
 
         if ($this->useJMS) {
@@ -87,6 +91,14 @@ class TestKernel extends Kernel
     public function getLogDir()
     {
         return parent::getLogDir().'/'.(int) $this->useJMS;
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $loader->load(__DIR__ . '/app/config/config.yml');
     }
 
     public function serialize()

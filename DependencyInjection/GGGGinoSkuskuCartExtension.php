@@ -64,7 +64,13 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
      */
     public function prepend(ContainerBuilder $container)
     {
-        $doctrineConfig = $container->getExtensionConfig('doctrine');
+        $doctrineConfig = $container->getExtensionConfig('doctrine') ?: array(
+            array(
+                'orm' => array(
+                    'resolve_target_entities' => array()
+                )
+            )
+        );
 
         $arrayEntities = array_merge(...$doctrineConfig);
         $arrayEntities = $arrayEntities['orm']['resolve_target_entities'];

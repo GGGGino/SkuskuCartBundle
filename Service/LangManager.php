@@ -65,4 +65,14 @@ class LangManager implements LangManagerInterface
 
         return $locale;
     }
+
+    /**
+     * @param EntityManager $em
+     * @return LangManager
+     */
+    public function setEm($em)
+    {
+        $this->em = $em;
+        return $this;
+    }
 }
