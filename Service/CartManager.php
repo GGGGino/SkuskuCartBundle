@@ -83,6 +83,7 @@ class CartManager
     {
         $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct cp')->execute();
         $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuCart c')->execute();
+        $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuPayment c')->execute();
     }
 
     /**

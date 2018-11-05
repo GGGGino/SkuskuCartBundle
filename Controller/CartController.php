@@ -9,7 +9,11 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
 use Payum\Core\Gateway;
+use Payum\Core\Request\GetHumanStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
@@ -47,7 +51,11 @@ class CartController extends Controller
         // form of the current step
         $form = $flow->createForm();
 
-        $form = $flow->handleSubmit($form, $formData);
+        $response = $flow->handleSubmit($form, $formData);
+
+        if( $response instanceof RedirectResponse ){
+            return $response;
+        }
 
         return $this->render($cartTemplate, array(
             'form' => $form->createView(),
@@ -86,10 +94,35 @@ class CartController extends Controller
     /**
      * Action temporanea per i test
      *
-     * @Route("/sample", name="sample")
+     * @Route("/done", name="done")
      */
-    public function sampleAction()
+    public function doneAction(Request $request)
     {
-        return new Response('oo');
+        $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
+
+        $gateway = $this->get('payum')->getGateway($token->getGatewayName());
+
+        // you can invalidate the token. The url could not be requested any more.
+        // $this->get('payum')->getHttpRequestVerifier()->invalidate($token);
+
+        // Once you have token you can get the model from the storage directly.
+        //$identity = $token->getDetails();
+        //$payment = $this->get('payum')->getStorage($identity->getClass())->find($identity);
+
+        // or Payum can fetch the model for you while executing a request (Preferred).
+        $gateway->execute($status = new GetHumanStatus($token));
+        $payment = $status->getFirstModel();
+
+        // you have order and payment status
+        // so you can do whatever you want for example you can just print status and payment details.
+
+        return new JsonResponse(array(
+            'status' => $status->getValue(),
+            'payment' => array(
+                'total_amount' => $payment->getTotalAmount(),
+                'currency_code' => $payment->getCurrencyCode(),
+                'details' => $payment->getDetails(),
+            ),
+        ));
     }
 }

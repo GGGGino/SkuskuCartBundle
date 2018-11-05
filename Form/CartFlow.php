@@ -13,6 +13,7 @@ use Payum\Core\Gateway;
 use Payum\Core\Payum;
 use Payum\Core\Request\Capture;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -56,7 +57,7 @@ class CartFlow extends CartFlowBase
      * @param $form
      * @return FormInterface
      */
-    public function handleSubmit($form, $formData)
+    public function handleSubmit(&$form, $formData)
     {
         if ($this->isValid($form)) {
             $this->saveCurrentStepData($form);
@@ -76,6 +77,8 @@ class CartFlow extends CartFlowBase
 
                 $this->cartManager->saveCart($finalCart);
 
+                $storage = $this->payum->getStorage('GGGGino\SkuskuCartBundle\Model\SkuskuPayment');
+
                 $payment = new SkuskuPayment();
                 $payment->setNumber(uniqid());
                 $payment->setCurrencyCode($finalCart->getCurrency()->getIsoCode());
@@ -84,8 +87,20 @@ class CartFlow extends CartFlowBase
                 $payment->setClientId($finalCart->getCustomer());
                 $payment->setClientEmail($finalCart->getCustomer()->getEmail());
 
+                $storage->update($payment);
+
+                $captureToken = $this->payum->getTokenFactory()->createCaptureToken(
+                    'paypal_express_checkout_and_doctrine_orm',
+                    $payment,
+                    'done' // the route to redirect after capture
+                );
+
+                die($captureToken->getTargetUrl());
+
+                return new RedirectResponse($captureToken->getTargetUrl());
+
                 /** @var Gateway $gateway */
-                $gateway = $this->payum->getGateway('offline');
+                $gateway = $this->payum->getGateway('paypal_express_checkout_and_doctrine_orm');
                 $gateway->execute(new Capture($payment));
 
                 // commento il flush perchè sembra che lo faccia già in $gateway->execute
