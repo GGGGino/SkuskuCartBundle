@@ -8,7 +8,9 @@ framework:
     session:
         storage_id: 'session.storage.mock_file'
     secret: '%secret%'
-    router: { resource: 'none' }
+    router:
+        resource: "@GGGGinoSkuskuCartBundle/Controller/"
+        type:     annotation
     default_locale: '%locale%'
     form: true
 

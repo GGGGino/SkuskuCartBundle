@@ -39,7 +39,8 @@ class TestKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new \Craue\FormFlowBundle\CraueFormFlowBundle(),
             new \Payum\Bundle\PayumBundle\PayumBundle(),
-            new \GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle()
+            new \GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle(),
+            new \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle()
         ];
 
         if ($this->useJMS) {
