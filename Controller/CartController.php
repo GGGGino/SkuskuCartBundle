@@ -21,6 +21,10 @@ use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Reply\HttpResponse;
 use Payum\Core\Request\Capture;
 
+/**
+ * Class CartController
+ * @package GGGGino\SkuskuCartBundle\Controller
+ */
 class CartController extends Controller
 {
     /**
@@ -98,20 +102,22 @@ class CartController extends Controller
      */
     public function doneAction(Request $request)
     {
+        /** @var string $cartFlowClass */
+        $cartFlowClass = $this->getParameter('ggggino_skuskucart.stepform_class');
+
+        /** @var CartFlow $flow */
+        $flow = $this->get($cartFlowClass);
+
         $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
 
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
 
-        // you can invalidate the token. The url could not be requested any more.
-        // $this->get('payum')->getHttpRequestVerifier()->invalidate($token);
+        //$this->get('payum')->getHttpRequestVerifier()->invalidate($token);
 
-        // Once you have token you can get the model from the storage directly.
-        //$identity = $token->getDetails();
-        //$payment = $this->get('payum')->getStorage($identity->getClass())->find($identity);
-
-        // or Payum can fetch the model for you while executing a request (Preferred).
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
+
+        $flow->handleDone($payment, $status);
 
         // you have order and payment status
         // so you can do whatever you want for example you can just print status and payment details.

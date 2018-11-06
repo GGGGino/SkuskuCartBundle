@@ -4,6 +4,7 @@ namespace GGGGino\SkuskuCartBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
+use GGGGino\SkuskuCartBundle\Event\PostPaymentCartEvent;
 use GGGGino\SkuskuCartBundle\Event\PostSubmitCartEvent;
 use GGGGino\SkuskuCartBundle\Event\PreSubmitCartEvent;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
@@ -13,9 +14,11 @@ use Payum\Core\Gateway;
 use Payum\Core\Payum;
 use Payum\Core\Request\Capture;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class CartFlow extends CartFlowBase
@@ -23,6 +26,8 @@ class CartFlow extends CartFlowBase
     const PRE_SUBMIT = 'skusku_cart.pre_submit';
 
     const POST_SUBMIT = 'skusku_cart.post_submit';
+
+    const POST_PAYMENT = 'skusku_cart.post_payment';
 
     /**
      * @var CartManager
@@ -55,7 +60,11 @@ class CartFlow extends CartFlowBase
 
     /**
      * @param $form
-     * @return FormInterface
+     * @param $formData
+     * @return Response|void
+     *
+     * @throws \Payum\Core\Reply\ReplyInterface
+     * @throws null
      */
     public function handleSubmit(&$form, $formData)
     {
@@ -95,7 +104,16 @@ class CartFlow extends CartFlowBase
                     'done' // the route to redirect after capture
                 );
 
-                die($captureToken->getTargetUrl());
+                $finalCart->setPayment($payment);
+
+                $this->cartManager->flushCart($finalCart);
+
+                $this->reset(); // remove step data from the session
+
+                if ($this->hasListeners(self::POST_SUBMIT)) {
+                    $event = new PostSubmitCartEvent($this, $formData);
+                    $this->eventDispatcher->dispatch(self::POST_SUBMIT, $event);
+                }
 
                 return new RedirectResponse($captureToken->getTargetUrl());
 
@@ -106,12 +124,6 @@ class CartFlow extends CartFlowBase
                 // commento il flush perchè sembra che lo faccia già in $gateway->execute
                 // $em->flush();
 
-
-                if ($this->hasListeners(self::POST_SUBMIT)) {
-                    $event = new PostSubmitCartEvent($this, $formData);
-                    $this->eventDispatcher->dispatch(self::POST_SUBMIT, $event);
-                }
-
                 $this->reset(); // remove step data from the session
 
                 /** @var Session $session */
@@ -120,8 +132,31 @@ class CartFlow extends CartFlowBase
                 $session->getFlashBag()->add('success', 'order_done');
             }
         }
+    }
 
-        return $form;
+    /**
+     * @param $payment
+     * @return FormInterface
+     */
+    public function handleDone(SkuskuPayment $payment, $status)
+    {
+        // @todo create a custom event dispatcher
+        if ($this->hasListeners(self::POST_PAYMENT)) {
+            $event = new PostPaymentCartEvent($this, $payment, $status);
+            $this->eventDispatcher->dispatch(self::POST_PAYMENT, $event);
+        }
+
+        // you have order and payment status
+        // so you can do whatever you want for example you can just print status and payment details.
+
+        return new JsonResponse(array(
+            'status' => $status->getValue(),
+            'payment' => array(
+                'total_amount' => $payment->getTotalAmount(),
+                'currency_code' => $payment->getCurrencyCode(),
+                'details' => $payment->getDetails(),
+            ),
+        ));
     }
 
     /**

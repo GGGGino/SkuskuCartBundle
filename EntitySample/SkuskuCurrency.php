@@ -1,6 +1,6 @@
 <?php
 
-namespace GGGGino\SkuskuCartBundle\Entity;
+namespace GGGGino\SkuskuCartBundle\EntitySample;
 
 use Doctrine\ORM\Mapping as ORM;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCurrencyBase;

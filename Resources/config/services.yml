@@ -4,10 +4,6 @@ services:
         # redundant if you're using autoconfigure
         tags: [kernel.event_subscriber]
 
-    GGGGino\SkuskuCartBundle\Service\CartManager:
-        public: true
-        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '%ggggino_skuskucart.allow_anonymous_shop%']
-
     GGGGino\SkuskuCartBundle\Service\CurrencyManager:
         public: true
         arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '@request_stack']
@@ -15,6 +11,17 @@ services:
     GGGGino\SkuskuCartBundle\Service\LangManager:
         public: true
         arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '@request_stack']
+
+    GGGGino\SkuskuCartBundle\Service\CartManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '%ggggino_skuskucart.allow_anonymous_shop%']
+        calls:
+            - [setCurrencyManager, ['@GGGGino\SkuskuCartBundle\Service\CurrencyManager']]
+            - [setLangManager, ['@GGGGino\SkuskuCartBundle\Service\LangManager']]
+
+    GGGGino\SkuskuCartBundle\Service\OrderManager:
+        public: true
+        arguments: ['@doctrine.orm.default_entity_manager', '@security.token_storage', '%ggggino_skuskucart.allow_anonymous_shop%']
 
     GGGGino\SkuskuCartBundle\Form\CartFlow:
         parent: craue.form.flow

@@ -5,8 +5,8 @@ namespace GGGGino\SkuskuCartBundle\Service;
 use Doctrine\ORM\EntityManager;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
-use GGGGino\SkuskuCartBundle\Model\SkuskuCurrencyInterface;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
+use GGGGino\SkuskuCartBundle\Model\SkuskuLangInterface;
 use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class CurrencyManager implements CurrencyManagerInterface
+class OrderManager
 {
     /**
      * @var EntityManager
@@ -42,27 +42,5 @@ class CurrencyManager implements CurrencyManagerInterface
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
         $this->requestStack = $requestStack;
-    }
-
-    /**
-     * @return SkuskuCurrencyInterface[]
-     */
-    public function getActiveCurrencies()
-    {
-        return $this->em->getRepository(SkuskuCurrencyInterface::class)->findAll();
-    }
-
-    /**
-     * @return SkuskuCurrencyInterface
-     */
-    public function getCurrentCurrency()
-    {
-        /** @var string $currencyIdentifier */
-        $currencyIdentifier = $this->requestStack->getCurrentRequest()->attributes->get('skusku_cu');
-
-        /** @var SkuskuCurrencyInterface $locale */
-        $locale = $this->em->getRepository(SkuskuCurrencyInterface::class)->findOneByIsoCode($currencyIdentifier);
-
-        return $locale;
     }
 }

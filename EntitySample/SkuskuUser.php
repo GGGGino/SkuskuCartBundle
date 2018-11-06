@@ -1,6 +1,6 @@
 <?php
 
-namespace GGGGino\SkuskuCartBundle\Entity;
+namespace GGGGino\SkuskuCartBundle\EntitySample;
 
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
 use Sonata\UserBundle\Entity\BaseUser as BaseUser;

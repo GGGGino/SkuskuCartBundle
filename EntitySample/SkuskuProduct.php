@@ -1,6 +1,6 @@
 <?php
 
-namespace GGGGino\SkuskuCartBundle\Entity;
+namespace GGGGino\SkuskuCartBundle\EntitySample;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

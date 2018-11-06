@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
+use GGGGino\SkuskuCartBundle\Model\SkuskuOrder;
 use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
@@ -33,6 +34,16 @@ class CartManager
      * @var bool
      */
     private $allowAnonymous;
+
+    /**
+     * @var CurrencyManager
+     */
+    private $currencyManager;
+
+    /**
+     * @var LangManager
+     */
+    private $langManager;
 
     /**
      * CartExtension constructor.
@@ -77,6 +88,16 @@ class CartManager
     }
 
     /**
+     * Faccio il flush del carrello
+     *
+     * @param SkuskuCart $cart
+     */
+    public function flushCart(SkuskuCart $cart)
+    {
+        $this->em->flush($cart);
+    }
+
+    /**
      *  Empty the cart tables
      */
     public function clearCart()
@@ -84,6 +105,8 @@ class CartManager
         $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct cp')->execute();
         $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuCart c')->execute();
         $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuPayment c')->execute();
+        $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuPaymentToken c')->execute();
+        $this->em->createQuery('DELETE GGGGino\SkuskuCartBundle\Model\SkuskuOrder c')->execute();
     }
 
     /**
@@ -118,9 +141,7 @@ class CartManager
             $cart = $this->getCartFromCustomer($customer);
 
             if( !$cart ){
-                $cart = new SkuskuCart();
-                $cart->setDateAdd(new \DateTime());
-                $cart->setCustomer($customer);
+                $cart = $this->createNewCart($customer);
                 $this->em->persist($cart);
             }
 
@@ -140,5 +161,60 @@ class CartManager
 
             $this->em->flush();
         }
+    }
+
+    /**
+     * @param SkuskuCustomerInterface|null $customer
+     * @return SkuskuCart
+     */
+    public function createNewCart(SkuskuCustomerInterface $customer = null)
+    {
+        $cart = new SkuskuCart();
+        $cart->setDateAdd(new \DateTime());
+        $cart->setCustomer($customer);
+        $cart->setCurrency($this->currencyManager->getCurrentCurrency());
+
+        return $cart;
+    }
+
+    /**
+     * @param SkuskuCart $cart
+     * @return SkuskuOrder
+     */
+    public function createNewOrderFromCart(SkuskuCart $cart)
+    {
+        $totPrice = $cart->getTotalPrice();
+
+        $order = new SkuskuOrder();
+        $order->setCurrency($cart->getCurrency());
+        $order->setDateAdd(new \DateTime());
+        $order->setCustomer($cart->getCustomer());
+        $order->setCart($cart);
+        $order->setLang($cart->getLang());
+        $order->setTotalPaid($totPrice);
+        $order->setTotalPaidReal($totPrice);
+        $order->setTotalProducts($totPrice);
+
+        return $order;
+    }
+
+    /**
+     * @param CurrencyManager $currencyManager
+     * @return CartManager
+     */
+    public function setCurrencyManager($currencyManager)
+    {
+        $this->currencyManager = $currencyManager;
+        return $this;
+    }
+
+    /**
+     * @param LangManager $langManager
+     * @return CartManager
+     */
+    public function setLangManager($langManager)
+    {
+        $this->langManager = $langManager;
+        return $this;
     }
 }

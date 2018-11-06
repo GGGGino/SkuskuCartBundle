@@ -29,6 +29,17 @@ class SkuskuCart
     private $products;
 
     /**
+     * @ORM\OneToOne(targetEntity="SkuskuPayment", inversedBy="cart")
+     * @ORM\JoinColumn(name="payment", referencedColumnName="id")
+     */
+    private $payment;
+
+    /**
+     * @ORM\OneToOne(targetEntity="SkuskuOrder", mappedBy="cart")
+     */
+    private $order;
+
+    /**
      * @ORM\ManyToOne(targetEntity="SkuskuLangInterface")
      * @ORM\JoinColumn(name="lang_id", referencedColumnName="id")
      * @var SkuskuLangInterface
@@ -62,6 +73,8 @@ class SkuskuCart
      * @ORM\Column(name="date_upd", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $dateUpd;
+
+
 
     /**
      * Cart constructor.
@@ -246,6 +259,24 @@ class SkuskuCart
     public function setCustomer($customer)
     {
         $this->customer = $customer;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayment()
+    {
+        return $this->payment;
+    }
+
+    /**
+     * @param mixed $payment
+     * @return SkuskuCart
+     */
+    public function setPayment($payment)
+    {
+        $this->payment = $payment;
         return $this;
     }
 }
