@@ -64,6 +64,16 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
      */
     public function prepend(ContainerBuilder $container)
     {
+        $this->prependDoctrineTargetEntities($container);
+
+        $this->prependPayumGateway($container);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function prependDoctrineTargetEntities(ContainerBuilder $container)
+    {
         $doctrineConfig = $container->getExtensionConfig('doctrine') ?: array(
             array(
                 'orm' => array(
@@ -76,6 +86,34 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
         $arrayEntities = $arrayEntities['orm']['resolve_target_entities'];
 
         $container->setParameter('skusku_abstract_entities', $arrayEntities);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function prependPayumGateway(ContainerBuilder $container)
+    {
+        if( !$container->hasExtension('payum') ){
+            die('non ce payum');
+        }
+
+        $configs = $container->getExtensionConfig('payum') ?: array(
+            array(
+                'gateways' => array(
+                )
+            )
+        );
+
+        $arrayEntities = array_merge(...$configs);
+        $arrayEntities = $arrayEntities['gateways'];
+        $finalEntities = array();
+
+        foreach( $arrayEntities as $key => $value ){
+            $labelName = isset($value['name']) ? $value['name'] : $key;
+            $finalEntities[$labelName] = $key;
+        }
+
+        $container->setParameter('skusku_gateways', $finalEntities);
     }
 
     /**

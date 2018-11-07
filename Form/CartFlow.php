@@ -4,6 +4,7 @@ namespace GGGGino\SkuskuCartBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
+use GGGGino\SkuskuCartBundle\Entity\CartForm;
 use GGGGino\SkuskuCartBundle\Event\PostPaymentCartEvent;
 use GGGGino\SkuskuCartBundle\Event\PostSubmitCartEvent;
 use GGGGino\SkuskuCartBundle\Event\PreSubmitCartEvent;
@@ -60,7 +61,7 @@ class CartFlow extends CartFlowBase
 
     /**
      * @param $form
-     * @param $formData
+     * @param CartForm $formData
      * @return Response|void
      *
      * @throws \Payum\Core\Reply\ReplyInterface
@@ -99,7 +100,7 @@ class CartFlow extends CartFlowBase
                 $storage->update($payment);
 
                 $captureToken = $this->payum->getTokenFactory()->createCaptureToken(
-                    'paypal_express_checkout_and_doctrine_orm',
+                    $formData->getPaymentMethod(),
                     $payment,
                     'done' // the route to redirect after capture
                 );
@@ -116,20 +117,6 @@ class CartFlow extends CartFlowBase
                 }
 
                 return new RedirectResponse($captureToken->getTargetUrl());
-
-                /** @var Gateway $gateway */
-                $gateway = $this->payum->getGateway('paypal_express_checkout_and_doctrine_orm');
-                $gateway->execute(new Capture($payment));
-
-                // commento il flush perchè sembra che lo faccia già in $gateway->execute
-                // $em->flush();
-
-                $this->reset(); // remove step data from the session
-
-                /** @var Session $session */
-                $session = $this->requestStack->getCurrentRequest()->getSession();
-
-                $session->getFlashBag()->add('success', 'order_done');
             }
         }
     }

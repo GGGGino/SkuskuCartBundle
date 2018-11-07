@@ -41,3 +41,8 @@ services:
         arguments: ['@twig', '@GGGGino\SkuskuCartBundle\Service\CartManager', '@GGGGino\SkuskuCartBundle\Service\CurrencyManager', '@GGGGino\SkuskuCartBundle\Service\LangManager']
         tags:
             - { name: twig.extension }
+
+    Payum\Core\Bridge\Symfony\Form\Type\GatewayChoiceType:
+        arguments: ["%skusku_gateways%"]
+        tags:
+            - { name: form.type }
