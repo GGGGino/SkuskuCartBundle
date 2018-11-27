@@ -28,7 +28,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  * Class CurrencyCreateCommand
  * @package GGGGino\SkuskuCartBundle\Command
  */
-class CurrencyCreateCommand extends ContainerAwareCommand
+class DoctorDbCommand extends ContainerAwareCommand
 {
     /**
      * @var SkuskuHelper
@@ -41,38 +41,8 @@ class CurrencyCreateCommand extends ContainerAwareCommand
     public function configure()
     {
         $this
-            ->setName('ggggino_skusku:currency:create')
-            ->setDescription('Create a Currency')
-            ->addArgument('entity', InputArgument::OPTIONAL, 'The fully qualified model class');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $this->skuskuHelper = $this->getContainer()->get(SkuskuHelper::class);
-
-        /** @var array $abstractEntities */
-        $abstractEntities = $this->skuskuHelper->getAbstractEntities();
-        $abstractEntitiesInverted = array_flip($abstractEntities);
-
-        $helper = $this->getHelper('question');
-
-        // If i make a mistake writing the class this enforce you to chose
-        // @todo now i'm forced to write thee entity namespace wth 2 backslash otherwise it will be removed
-        if( !in_array($input->getArgument('entity'), $abstractEntities) ){
-            $output->writeln('<error>Entity: ' . $input->getArgument('entity') . ' Not found</error>');
-            $question = new ChoiceQuestion(
-                'Please select the entity',
-                array_keys($abstractEntitiesInverted)
-            );
-            $question->setErrorMessage('Entity %s is invalid.');
-
-            $concreteClass = $helper->ask($input, $output, $question);
-
-            $input->setArgument('entity', $concreteClass);
-        }
+            ->setName('ggggino_skusku:doctor:db')
+            ->setDescription('Check if this bundle is correctly installed on the db');
     }
 
     /**
@@ -80,6 +50,8 @@ class CurrencyCreateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->skuskuHelper = $this->getContainer()->get(SkuskuHelper::class);
+
         $entityClass = $input->getArgument('entity');
         $classReflected = new \ReflectionClass($entityClass);
         $entityInstance = new $entityClass();

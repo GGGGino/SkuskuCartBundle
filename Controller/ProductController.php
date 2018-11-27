@@ -40,7 +40,7 @@ class ProductController extends Controller
                 'idProduct' => $product->getId()
             ));
 
-            $cartManager->addProductToCart($request, $addToCartForm);
+            $cartManager->addProductToCartForm($request, $addToCartForm);
 
             $productsAndForms[] = array(
                 'product' => $product,
@@ -78,7 +78,7 @@ class ProductController extends Controller
             'idProduct' => $id
         ));
 
-        $cartManager->addProductToCart($request, $addToCartForm);
+        $cartManager->addProductToCartForm($request, $addToCartForm);
 
         return $this->render('GGGGinoSkuskuCartBundle::product.html.twig', array(
             'product' => $product,

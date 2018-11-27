@@ -113,7 +113,7 @@ class CartManager
      * @param Request $request
      * @param FormInterface $form
      */
-    public function addProductToCart(Request $request, FormInterface $form)
+    public function addProductToCartForm(Request $request, FormInterface $form)
     {
         if( $this->handled )
             return;
@@ -137,30 +137,48 @@ class CartManager
             if( !$this->allowAnonymous && !$customer )
                 throw new AccessDeniedException("Anonymous users cannot buy");
 
-            /** @var SkuskuCart $cart */
-            $cart = $this->getCartFromCustomer($customer);
-
-            if( !$cart ){
-                $cart = $this->createNewCart($customer);
-                $this->em->persist($cart);
-            }
-
-            $cart->setDateUpd(new \DateTime());
-
-            /** @var SkuskuCartProduct $productCart */
-            if( $productCart = $cart->getProduct($productReference)->first() ){
-                $productCart->setQuantity($productCart->getQuantity() + $quantity);
-            }else{
-                $productCart = new SkuskuCartProduct();
-                $productCart->setProduct($productReference);
-                $productCart->setQuantity($quantity);
-
-                $cart->addProduct($productCart);
-                $this->em->persist($productCart);
-            }
-
-            $this->em->flush();
+            $this->addProductToCart($productReference, $quantity);
         }
+    }
+
+    /**
+     * Aggiungo il prodotto al carrello controllando che:
+     * - il carrello esista
+     * -- se non esiste lo creo
+     * - aggiorno la data del carrello
+     * - aggiungo e salvo il prodotto
+     *
+     * @param SkuskuProductInterface $product
+     * @param $quantity
+     */
+    public function addProductToCart(SkuskuProductInterface $product, $quantity)
+    {
+        /** @var SkuskuCustomerInterface $customer */
+        $customer = $this->tokenStorage->getToken()->getUser();
+
+        /** @var SkuskuCart $cart */
+        $cart = $this->getCartFromCustomer($customer);
+
+        if( !$cart ){
+            $cart = $this->createNewCart($customer);
+            $this->em->persist($cart);
+        }
+
+        $cart->setDateUpd(new \DateTime());
+
+        /** @var SkuskuCartProduct $productCart */
+        if( $productCart = $cart->getProduct($product)->first() ){
+            $productCart->setQuantity($productCart->getQuantity() + $quantity);
+        }else{
+            $productCart = new SkuskuCartProduct();
+            $productCart->setProduct($product);
+            $productCart->setQuantity($quantity);
+
+            $cart->addProduct($productCart);
+            $this->em->persist($productCart);
+        }
+
+        $this->em->flush();
     }
 
     /**

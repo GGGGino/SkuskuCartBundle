@@ -14,6 +14,7 @@ class SkuskuHelper
      * @var EntityManager
      */
     private $em;
+
     /**
      * @var array
      */
@@ -39,7 +40,7 @@ class SkuskuHelper
     {
         $resultArray = array();
 
-        foreach($this->getConcreteEntities() as $key => $value){
+        foreach($this->getAbstractEntities() as $key => $value){
             $resultArray[] = array(
                 'interface' => $key,
                 'concrete' => $value
