@@ -31,7 +31,9 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
 
         $container->setParameter('ggggino_skuskucart.stepform_class', $config['stepform_class']);
 
-        $container->setParameter('ggggino_skuskucart.templates.cart_layout', $config['templates']['cart_layout']);
+        foreach($config['templates'] as $key => $template) {
+            $container->setParameter('ggggino_skuskucart.templates.' . $key, $template);
+        }
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

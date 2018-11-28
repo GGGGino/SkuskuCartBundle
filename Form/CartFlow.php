@@ -135,15 +135,6 @@ class CartFlow extends CartFlowBase
 
         // you have order and payment status
         // so you can do whatever you want for example you can just print status and payment details.
-
-        return new JsonResponse(array(
-            'status' => $status->getValue(),
-            'payment' => array(
-                'total_amount' => $payment->getTotalAmount(),
-                'currency_code' => $payment->getCurrencyCode(),
-                'details' => $payment->getDetails(),
-            ),
-        ));
     }
 
     /**

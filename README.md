@@ -54,6 +54,7 @@ ggggino_skuskucart:
             label: Step 3
     templates:
         cart_layout: 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
+        done_layout: 'xxxBundle:xxx:xxx.html.twig'
 ``` 
 
 Extra configs
@@ -228,6 +229,7 @@ If you need to change the templates
 ggggino_skuskucart:
     templates:
         cart_layout: 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
+        done_layout: 'xxxBundle:xxx:xxx.html.twig'
 ``` 
 
 ## Events
@@ -236,6 +238,13 @@ ggggino_skuskucart:
 | --- | --- | --- | ---|
 | skusku_cart.pre_submit | `CartFlow::PRE_SUBMIT` | `CartForm` | Here you can modify entities or do custom action before the persist |
 | skusku_cart.post_submit | `CartFlow::POST_SUBMIT` | `CartForm` | Here you can do custom action after the persist |
+
+## Templates
+
+| Name | Arguments | Default | Description |
+| --- | --- | --- | ---|
+| skusku_cart.templates.cart_layout | Form, FormFlow | `GGGGinoSkuskuCartBundle::cart_page.html.twig` | Set the template that render the cart page |
+| skusku_cart.templates.done_layout | Status, Payment | null | Set the template used after the payment was done |
 
 ## TODO
 

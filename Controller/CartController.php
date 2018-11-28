@@ -119,8 +119,12 @@ class CartController extends Controller
 
         $flow->handleDone($payment, $status);
 
-        // you have order and payment status
-        // so you can do whatever you want for example you can just print status and payment details.
+        if( $this->container->hasParameter('ggggino_skuskucart.templates.done_layout') ) {
+            return $this->render($this->container->getParameter('ggggino_skuskucart.templates.done_layout'), array(
+                'status' => $status,
+                'payment' => $payment
+            ));
+        }
 
         return new JsonResponse(array(
             'status' => $status->getValue(),
@@ -128,7 +132,7 @@ class CartController extends Controller
                 'total_amount' => $payment->getTotalAmount(),
                 'currency_code' => $payment->getCurrencyCode(),
                 'details' => $payment->getDetails(),
-            ),
+            )
         ));
     }
 }
