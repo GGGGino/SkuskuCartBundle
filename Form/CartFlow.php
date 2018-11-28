@@ -85,7 +85,7 @@ class CartFlow extends CartFlowBase
                     $this->eventDispatcher->dispatch(self::PRE_SUBMIT, $event);
                 }
 
-                $this->cartManager->saveCart($finalCart);
+                $this->cartManager->persistCart($finalCart);
 
                 $storage = $this->payum->getStorage('GGGGino\SkuskuCartBundle\Model\SkuskuPayment');
 

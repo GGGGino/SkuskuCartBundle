@@ -89,7 +89,7 @@ class CartManager
      *
      * @param SkuskuCart $cart
      */
-    public function saveCart(SkuskuCart $cart)
+    public function persistCart(SkuskuCart $cart)
     {
         $this->em->persist($cart);
     }

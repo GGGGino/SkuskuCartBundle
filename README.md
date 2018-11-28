@@ -34,6 +34,21 @@ $bundles = array(
 );
 ```
 
+**3** Create at least one currency
+
+``` shell
+bin/console ggggino_skusku:currency:create
+``` 
+
+**4** Set default locale and currency
+
+``` yml
+parameters:
+    locale: it
+    currency: EUR
+```
+
+
 ## Configuration
 
 Bundle complete configuration
@@ -150,7 +165,7 @@ doctrine:
    ``` 
 
 
-## Usage
+## Twig functions
 
 ### Print the cart preview
 
@@ -168,6 +183,57 @@ doctrine:
 
 ``` twig
 {{ render_currency_cart() }}
+``` 
+
+
+## CartManager API
+
+### Cart manager
+Get the cart manager instance
+``` php
+use GGGGino\SkuskuCartBundle\Service\CartManager;
+.
+.
+.
+$cartManager = $this->get(CartManager::class);
+``` 
+
+### CartManager::persistCart(SkuskuCart $cart)
+Add the cart to EntityManager
+``` php
+use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
+.
+.
+.
+/** @var SkuskuCart $finalCart */
+$finalCart = ...
+
+$cartManager->persistCart($finalCart);
+``` 
+
+### CartManager::flushCart(SkuskuCart $cart);
+Flush the cart
+``` php
+$cartManager->flushCart($finalCart);
+``` 
+
+### CartManager::addProductToCart(SkuskuProductInterface $product, int $quantity)
+Add some product to the cart
+``` php
+$quantity = 20;
+$cartManager->addProductToCart($product, $quantity);
+``` 
+
+### CartManager::createNewCart(SkuskuCustomerInterface $customer = null)
+Create new Cart from a given customer, if the customer is not passed is taken from the session
+``` php
+$cartManager->createNewCart($customer);
+``` 
+
+### CartManager::createNewOrderFromCart(SkuskuCart $cart)
+Build a new Order from a given cart. Used for example when the payment gone good
+``` php
+$cartManager->createNewOrderFromCart($cart);
 ``` 
 
 ### Cart page
