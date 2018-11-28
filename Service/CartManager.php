@@ -58,8 +58,13 @@ class CartManager
     }
 
     /**
-     * @param SkuskuCustomerInterface $customer
-     * @return SkuskuCart
+     * Get the cart from a given Customer.
+     * If the customer is not passed, is taken from the session
+     *
+     * @api
+     *
+     * @param SkuskuCustomerInterface|null $customer
+     * @return SkuskuCart|null
      */
     public function getCartFromCustomer(SkuskuCustomerInterface $customer = null)
     {
@@ -80,6 +85,8 @@ class CartManager
     /**
      * Aggiungo il carrello alla coda delle entita da processare di doctrine
      *
+     * @api
+     *
      * @param SkuskuCart $cart
      */
     public function saveCart(SkuskuCart $cart)
@@ -90,6 +97,8 @@ class CartManager
     /**
      * Faccio il flush del carrello
      *
+     * @api
+     *
      * @param SkuskuCart $cart
      */
     public function flushCart(SkuskuCart $cart)
@@ -98,7 +107,9 @@ class CartManager
     }
 
     /**
-     *  Empty the cart tables
+     * Empty the cart tables for development, garbage collector purposes
+     *
+     * @api
      */
     public function clearCart()
     {
@@ -110,6 +121,8 @@ class CartManager
     }
 
     /**
+     * Used from the mini form
+     *
      * @param Request $request
      * @param FormInterface $form
      */
@@ -142,11 +155,13 @@ class CartManager
     }
 
     /**
-     * Aggiungo il prodotto al carrello controllando che:
-     * - il carrello esista
-     * -- se non esiste lo creo
-     * - aggiorno la data del carrello
-     * - aggiungo e salvo il prodotto
+     * Add the product to the cart checking that:
+     * - the cart exist
+     * -- if it not exist, I create it
+     * - Update the cart date
+     * - add & update the cart
+     *
+     * @api
      *
      * @param SkuskuProductInterface $product
      * @param $quantity
@@ -182,6 +197,10 @@ class CartManager
     }
 
     /**
+     * Create new cart
+     *
+     * @api
+     *
      * @param SkuskuCustomerInterface|null $customer
      * @return SkuskuCart
      */
@@ -196,6 +215,11 @@ class CartManager
     }
 
     /**
+     * Build a new Order from a given cart.
+     * Used for example when the payment gone good
+     *
+     * @api
+     *
      * @param SkuskuCart $cart
      * @return SkuskuOrder
      */
