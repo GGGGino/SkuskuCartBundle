@@ -1,52 +1,52 @@
-<style>
-    .cartPreview{
-        display: inline-block;
-        position: relative;
-    }
-    #skusku-cart-button{
-        display: inline-block;
-        padding: 10px 20px;
-        margin: 10px;
-    }
-    .cartPreview .details{
-        -webkit-transition: all .5s; /* Safari */
-        transition: all .5s;
-        max-height: 0;
-        overflow: hidden;
-        position: absolute;
-        z-index: 20;
-        background: #FFFFFF;
-        top: 100%;
-        left: -200px;
-    }
-    .cartPreview:hover .details{
-        -webkit-transition: all .5s; /* Safari */
-        transition: all .5s;
-        max-height: 500px;
-        border: 1px solid grey;
-        padding: 10px 20px;
-    }
-</style>
+{% block cart_preview_stylesheet %}
+    <style>
+        .cartPreview{
+            display: inline-block;
+            position: relative;
+        }
+        .cartPreview .details{
+            -webkit-transition: all .5s; /* Safari */
+            transition: all .5s;
+            max-height: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: 20;
+            background: #FFFFFF;
+            top: 100%;
+            left: -200px;
+        }
+        .cartPreview:hover .details{
+            -webkit-transition: all .5s; /* Safari */
+            transition: all .5s;
+            max-height: 500px;
+            border: 1px solid grey;
+            padding: 10px 20px;
+        }
+    </style>
+{% endblock %}
 <div class="cartPreview">
     <div class="right aligned column">
-        <div id="skusku-cart-button" class="ui circular cart button">
-            <i class="cart icon"></i>
-            <span id="skusku-cart-total">{{ cart.getTotalQuantity() }} - {{ cart.getTotalPrice() }}€</span>
-        </div>
-        <div class="details">
-            {% if cart.products.count > 0 %}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">{{ 'product'|trans }}</th>
-                        <th scope="col">{{ 'price'|trans }}</th>
-                        <th scope="col">{{ 'quantity'|trans }}</th>
-                        <th scope="col">{{ 'subtotal'|trans }}</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
+        {% block cart_preview_icon %}
+            <div id="skusku-cart-button" class="ui circular cart button">
+                <i class="cart icon"></i>
+                <span id="skusku-cart-total">{{ cart.getTotalQuantity() }} - {{ cart.getTotalPrice() }}€</span>
+            </div>
+        {% endblock %}
+        {% block cart_preview_detail %}
+            <div class="details">
+                {% if cart.products.count > 0 %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ 'product'|trans }}</th>
+                            <th scope="col">{{ 'price'|trans }}</th>
+                            <th scope="col">{{ 'quantity'|trans }}</th>
+                            <th scope="col">{{ 'subtotal'|trans }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         {% for product in cart.products %}
                             <tr>
                                 <th>{{ product.id }}</th>
@@ -65,20 +65,23 @@
                             <td>{{ cart.getTotalPrice() }}€</td>
                             <td></td>
                         </tr>
-                    </tbody>
-                </table>
-            {% else %}
-                <h2>No products in cart</h2>
-            {% endif %}
-            <a href="{{ path('cart_page') }}" class="btn btn-primary">Cart</a>
-        </div>
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h2>No products in cart</h2>
+                {% endif %}
+                <a href="{{ path('cart_page') }}" class="btn btn-primary">Cart</a>
+            </div>
+        {% endblock %}
     </div>
 </div>
-<script>
-    jQuery('.cartPreview .fa-trash').on('click', function(e) {
-        var $button = $(this);
-        $.get( $button.data('idcartproducturl'), function( data ) {
-            $button.closest('tr').fadeOut();
+{% block cart_preview_javascript %}
+    <script>
+        jQuery('.cartPreview .fa-trash').on('click', function(e) {
+            var $button = $(this);
+            $.get( $button.data('idcartproducturl'), function( data ) {
+                $button.closest('tr').fadeOut();
+            });
         });
-    });
-</script>
+    </script>
+{% endblock %}

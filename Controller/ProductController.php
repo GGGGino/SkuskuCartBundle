@@ -5,6 +5,7 @@ namespace GGGGino\SkuskuCartBundle\Controller;
 use Allyou\ManagementCafBundle\Entity\Product;
 use GGGGino\SkuskuCartBundle\Form\AddToCartType;
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
+use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
 use GGGGino\SkuskuCartBundle\Service\CRUDCart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,10 +31,10 @@ class ProductController extends Controller
         $productsAndForms = array();
 
         $products = $this->getDoctrine()
-            ->getRepository(Product::class)
+            ->getRepository(SkuskuProductInterface::class)
             ->findAll();
 
-        /** @var Product $product */
+        /** @var SkuskuProductInterface $product */
         foreach($products as $product) {
             /** @var Form $addToCartForm */
             $addToCartForm = $this->createForm(AddToCartType::class, array(

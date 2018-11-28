@@ -69,10 +69,8 @@
                                     </div>
                                     <div class="caption">
                                         <h1>{{ product.id }}</h1>
-                                        Description: {{ product.description }}<br/>
-                                        Price: {{ product.price }}<br/>
-                                        From: {{ product.getAvailableFrom|date('d/m/Y') }}<br/>
-                                        To: {{ product.availableTo|date('d/m/Y') }}<br/><br/>
+                                        Description: {{ product.title }}<br/>
+                                        Price: {{ product.price }}<br/><br/>
                                         {% include "GGGGinoSkuskuCartBundle:Cart:add_to_cart.html.twig" with {addToCartForm: form} %}
                                     </div>
                                 </div>
