@@ -5,7 +5,11 @@
 ![Travis (.org)](https://img.shields.io/travis/GGGGino/SkuskuCartBundle.svg)
 
 
-Highly customizable cart management bundle for Symfony
+Highly customizable cart management bundle for Symfony.
+The archievement of this cart manager is to do something like:
+
+
+> **Add this *thing* to a *cart***
 
 
 ## License
@@ -103,8 +107,7 @@ skusku:
     type:     annotation
 ``` 
 
-Al posto delle entità es. "GGGGino\SkuskuCartBundle\Entity\SkuskuProduct" 
-dovrai sostituire le tue entità effettive. Example
+Use `resolve_target_entities` to replace the interface entities with the concrete ones
 
 ``` yml
 doctrine:
@@ -250,6 +253,10 @@ Clear all the skuskutables
 
 Create a row of the given entity - DEV
 
+> bin/console ggggino_skusku:doctor:db
+
+Check if the installation procedure was successful
+
 ## Configuration details
 
 You can decide if even the anonymous user can shop
@@ -304,6 +311,7 @@ ggggino_skuskucart:
 | --- | --- | --- | ---|
 | skusku_cart.pre_submit | `CartFlow::PRE_SUBMIT` | `CartForm` | Here you can modify entities or do custom action before the persist |
 | skusku_cart.post_submit | `CartFlow::POST_SUBMIT` | `CartForm` | Here you can do custom action after the persist |
+| skusku_cart.post_payment | `CartFlow::POST_PAYMENT` | `SkuskuPayment`, $status | Here you can do "anything" after the payment response |
 
 ## Templates
 

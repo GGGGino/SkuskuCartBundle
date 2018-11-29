@@ -122,6 +122,9 @@ class CartFlow extends CartFlowBase
     }
 
     /**
+     * Excecute all the listener tagged with "skusku_cart.post_payment"
+     * Save the cart as order
+     *
      * @param $payment
      * @return FormInterface
      */
