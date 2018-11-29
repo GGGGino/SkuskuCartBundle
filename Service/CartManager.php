@@ -178,16 +178,13 @@ class CartManager
 
         /** @var SkuskuCart $cart */
         $cart = $this->getCartFromCustomer($customer);
-
-        if( !$cart ){
-            $cart = $this->createNewCart($customer);
-            $this->em->persist($cart);
-        }
-
         $cart->setDateUpd(new \DateTime());
+
+        $this->em->persist($cart);
 
         /** @var SkuskuCartProduct $productCart */
         if( $productCart = $cart->getProduct($product)->first() ){
+            // @todo what?? $productCart->getQuantity() + $quantity
             $productCart->setQuantity($productCart->getQuantity() + $quantity);
         }else{
             $productCart = new SkuskuCartProduct();
