@@ -252,7 +252,7 @@ class CartManager
      */
     public function isCartTemp(SkuskuCart $cart)
     {
-        return !$cart->getId();
+        return !((bool) $cart->getId());
     }
 
     /**

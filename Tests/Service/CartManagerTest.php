@@ -6,9 +6,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use GGGGino\SkuskuCartBundle\Entity\SkuskuLanguage;
+use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuLangInterface;
-use GGGGino\SkuskuCartBundle\Service\LangManager;
+use GGGGino\SkuskuCartBundle\Service\CartManager;
 use GGGGino\SkuskuCartBundle\Tests\TestKernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -27,44 +27,70 @@ class CartManagerTest extends WebTestCase
     protected function setUp()
     {
         $this->client = static::createClient();
-
-        // Mock languages
-        $repoLangs = $this->createMock(ObjectRepository::class);
-        $repoLangs->expects($this->any())
-            ->method('findAll')
-            ->willReturn($this->fakeLanguages());
-
-        // Last, mock the EntityManager to return the mock of the repository
-        $objectManager = $this->createMock(EntityManager::class);
-        // use getMock() on PHPUnit 5.3 or below
-        // $objectManager = $this->getMock(ObjectManager::class);
-        $objectManager->expects($this->any())
-            ->method('getRepository')
-            ->with($this->equalTo(SkuskuLangInterface::class))
-            ->willReturn($repoLangs);
-
-        static::$kernel->getContainer()->set('doctrine.orm.default_entity_manager', $objectManager);
     }
 
-    private function fakeLanguages()
+    private function fakeCartTemp()
     {
-        return array(
-            (new SkuskuLanguage())->setName('Euro')->setIdentifier('EUR'),
-            (new SkuskuLanguage())->setName('Lira')->setIdentifier('£')
-        );
+        return new SkuskuCart();
     }
 
-    public function testFake()
+    private function fakeCartPermanent()
     {
-        //$this->client->request('GET', '/cart');
+        $cart = new SkuskuCart();
+        $reflectionClass = new \ReflectionClass(SkuskuCart::class);
 
-        /** @var LangManager $langManager */
-        $langManager = $this->client->getContainer()->get(LangManager::class);
-        //$langManager->setEm($objectManager);
+        $reflectionProperty = $reflectionClass->getProperty('id');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($cart, 6);
 
-        //var_dump($langManager->getCurrentLanguage());exit;
+        return $cart;
+    }
 
-        $this->assertCount(2, $langManager->getActiveLanguages());
-        //$this->assertEquals(1, $langManager->getCurrentLanguage());
+    private function fakeCartFull()
+    {
+        $cart = $this->fakeCartPermanent();
+        return $cart;
+    }
+
+    public function testCartTemp()
+    {
+        /** @var CartManager $cartManager */
+        $cartManager = $this->createPartialMock(CartManager::class, array('getCartFromCustomer'));
+        $cartManager->expects($this->any())
+            ->method('getCartFromCustomer')
+            ->willReturn($this->fakeCartTemp());
+
+        $cart = $cartManager->getCartFromCustomer();
+
+        $this->assertEquals(SkuskuCart::class, get_class($cart));
+        $this->assertTrue($cartManager->isCartTemp($cart));
+    }
+
+    public function testCartPermanent()
+    {
+        /** @var CartManager $cartManager */
+        $cartManager = $this->createPartialMock(CartManager::class, array('getCartFromCustomer'));
+        $cartManager->expects($this->any())
+            ->method('getCartFromCustomer')
+            ->willReturn($this->fakeCartPermanent());
+
+        $cart = $cartManager->getCartFromCustomer();
+
+        $this->assertEquals(SkuskuCart::class, get_class($cart));
+        $this->assertFalse($cartManager->isCartTemp($cart));
+    }
+
+    public function testCartFull()
+    {
+        /** @var CartManager $cartManager */
+        $cartManager = $this->createPartialMock(CartManager::class, array('getCartFromCustomer'));
+        $cartManager->expects($this->any())
+            ->method('getCartFromCustomer')
+            ->willReturn($this->fakeCartPermanent());
+
+        $cart = $cartManager->getCartFromCustomer();
+
+        $this->assertEquals(SkuskuCart::class, get_class($cart));
+        $this->assertFalse($cartManager->isCartTemp($cart));
     }
 }
