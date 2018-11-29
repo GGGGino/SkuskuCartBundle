@@ -2,7 +2,7 @@
 
 [![Total Downloads](https://poser.pugx.org/ggggino/skuskucart-bundle/downloads)](https://packagist.org/packages/ggggino/skuskucart-bundle)
 [![Latest Stable Version](https://poser.pugx.org/ggggino/skuskucart-bundle/v/stable)](https://packagist.org/packages/ggggino/skuskucart-bundle)
-![Travis (.org)](https://img.shields.io/travis/GGGGino/SkuskuCartBundle.svg)
+![Travis (.org)](https://api.travis-ci.com/GGGGino/SkuskuCartBundle.svg)
 
 
 Highly customizable cart management bundle for Symfony.
