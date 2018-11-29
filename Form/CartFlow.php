@@ -11,6 +11,7 @@ use GGGGino\SkuskuCartBundle\Event\PreSubmitCartEvent;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
+use GGGGino\SkuskuCartBundle\Service\OrderManager;
 use Payum\Core\Gateway;
 use Payum\Core\Payum;
 use Payum\Core\Request\Capture;
@@ -46,17 +47,28 @@ class CartFlow extends CartFlowBase
     private $payum;
 
     /**
+     * @var OrderManager
+     */
+    private $orderManager;
+
+    /**
      * CartFlowBase constructor.
      * @param array $configSteps
      * @param CartManager $cartManager
+     * @param OrderManager $orderManager
      * @param RequestStack $requestStack
      */
-    public function __construct(array $configSteps, CartManager $cartManager, RequestStack $requestStack)
+    public function __construct(
+        array $configSteps,
+        CartManager $cartManager,
+        OrderManager $orderManager,
+        RequestStack $requestStack)
     {
         parent::__construct($configSteps);
 
         $this->cartManager = $cartManager;
         $this->requestStack = $requestStack;
+        $this->orderManager = $orderManager;
     }
 
     /**
@@ -130,11 +142,13 @@ class CartFlow extends CartFlowBase
      */
     public function handleDone(SkuskuPayment $payment, $status)
     {
-        // @todo create a custom event dispatcher
         if ($this->hasListeners(self::POST_PAYMENT)) {
             $event = new PostPaymentCartEvent($this, $payment, $status);
             $this->eventDispatcher->dispatch(self::POST_PAYMENT, $event);
         }
+
+        $order = $this->orderManager->buildOrderFromCart($payment->getCart());
+        $this->orderManager->saveOrder($order);
 
         // you have order and payment status
         // so you can do whatever you want for example you can just print status and payment details.

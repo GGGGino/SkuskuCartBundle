@@ -53,14 +53,14 @@ class SkuskuOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_add", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="date_add", type="datetime")
      */
     private $dateAdd;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_upd", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="date_upd", type="datetime")
      */
     private $dateUpd;
 
@@ -84,6 +84,16 @@ class SkuskuOrder
      * @ORM\Column(name="total_products", type="decimal", precision=10, scale=2)
      */
     protected $totalProducts;
+
+
+    /**
+     * Cart constructor.
+     */
+    public function __construct()
+    {
+        $this->dateAdd = new \DateTime();
+        $this->dateUpd = new \DateTime();
+    }
 
     /**
      * Get id.

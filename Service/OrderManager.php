@@ -7,6 +7,7 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
 use GGGGino\SkuskuCartBundle\Model\SkuskuLangInterface;
+use GGGGino\SkuskuCartBundle\Model\SkuskuOrder;
 use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
@@ -42,5 +43,50 @@ class OrderManager
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
         $this->requestStack = $requestStack;
+    }
+
+    /**
+     * Create a temp Entity with some field initialized
+     *
+     * @return SkuskuOrder
+     */
+    private function createTempOrder()
+    {
+        $order = new SkuskuOrder();
+        $order->setDateAdd(new \DateTime());
+        $order->setDateUpd(new \DateTime());
+
+        return $order;
+    }
+
+    /**
+     * Build the order from a cart
+     *
+     * @param SkuskuCart $cart
+     * @return SkuskuOrder
+     */
+    public function buildOrderFromCart(SkuskuCart $cart)
+    {
+        /** @var SkuskuOrder $order */
+        $order = $this->createTempOrder();
+
+        $order->setCart($cart);
+        $order->setTotalPaid($cart->getTotalPrice());
+        $order->setTotalPaidReal($cart->getTotalPrice());
+        $order->setTotalProducts($cart->getTotalQuantity());
+        $order->setCustomer($cart->getCustomer());
+        $order->setCurrency($cart->getCurrency());
+        $order->setLang($cart->getLang());
+
+        return $order;
+    }
+
+    /**
+     * @param SkuskuOrder $order
+     */
+    public function saveOrder(SkuskuOrder $order)
+    {
+        $this->em->persist($order);
+        $this->em->flush();
     }
 }

@@ -26,7 +26,7 @@ services:
     GGGGino\SkuskuCartBundle\Form\CartFlow:
         parent: craue.form.flow
         class: GGGGino\SkuskuCartBundle\Form\CartFlow
-        arguments: ['%ggggino_skuskucart.stepform%', '@GGGGino\SkuskuCartBundle\Service\CartManager', '@request_stack']
+        arguments: ['%ggggino_skuskucart.stepform%', '@GGGGino\SkuskuCartBundle\Service\CartManager', '@GGGGino\SkuskuCartBundle\Service\OrderManager', '@request_stack']
         public: true
         calls:
             - [setPayum, ['@payum']]

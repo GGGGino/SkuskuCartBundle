@@ -63,17 +63,16 @@ class SkuskuCart
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_add", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="date_add", type="datetime")
      */
     private $dateAdd;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_upd", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="date_upd", type="datetime")
      */
     private $dateUpd;
-
 
 
     /**
@@ -82,6 +81,8 @@ class SkuskuCart
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->dateAdd = new \DateTime();
+        $this->dateUpd = new \DateTime();
     }
 
     /**
