@@ -69,17 +69,22 @@ class CartManager
     public function getCartFromCustomer(SkuskuCustomerInterface $customer = null)
     {
         if( !$customer ) {
-            /** @var SkuskuCustomerInterface $user */
             $customer = $this->tokenStorage->getToken()->getUser();
         }
 
+        // If the user is anon. the arg $customer is a string, so i check it
         if( !($customer instanceof UserInterface) )
             $customer = null;
 
         if( !$this->allowAnonymous && !$customer )
             throw new AccessDeniedException("Anonymous users cannot buy");
 
-        return $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')->findOneByCustomer($customer);
+        $cart = $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')->findOneByCustomer($customer);
+
+        if( !$cart )
+            $cart = $this->createNewCart();
+
+        return $cart;
     }
 
     /**
@@ -238,6 +243,19 @@ class CartManager
         $order->setTotalProducts($totPrice);
 
         return $order;
+    }
+
+    /**
+     * Check if the cart is temporary created or permanent
+     *
+     * @api
+     *
+     * @param SkuskuCart $cart
+     * @return bool
+     */
+    public function isCartTemp(SkuskuCart $cart)
+    {
+        return !$cart->getId();
     }
 
     /**

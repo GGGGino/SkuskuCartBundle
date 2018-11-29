@@ -3,6 +3,7 @@
 namespace GGGGino\SkuskuCartBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use GGGGino\SkuskuCartBundle\Exception\CurrencyNotFoundException;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCurrencyInterface;
@@ -54,6 +55,7 @@ class CurrencyManager implements CurrencyManagerInterface
 
     /**
      * @return SkuskuCurrencyInterface
+     * @throws CurrencyNotFoundException
      */
     public function getCurrentCurrency()
     {
@@ -62,6 +64,9 @@ class CurrencyManager implements CurrencyManagerInterface
 
         /** @var SkuskuCurrencyInterface $locale */
         $locale = $this->em->getRepository(SkuskuCurrencyInterface::class)->findOneByIsoCode($currencyIdentifier);
+
+        if( !$locale )
+            throw new CurrencyNotFoundException();
 
         return $locale;
     }

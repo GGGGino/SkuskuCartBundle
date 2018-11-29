@@ -28,21 +28,21 @@ class OrderManager
     private $tokenStorage;
 
     /**
-     * @var RequestStack
+     * @var bool
      */
-    private $requestStack;
+    private $allowAnonymous;
 
     /**
      * CartExtension constructor.
      * @param EntityManager $em
      * @param TokenStorage $tokenStorage
-     * @param RequestStack $requestStack
+     * @param bool $allowAnonymous
      */
-    public function __construct(EntityManager $em, TokenStorage $tokenStorage, RequestStack $requestStack)
+    public function __construct(EntityManager $em, TokenStorage $tokenStorage, $allowAnonymous = true)
     {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
-        $this->requestStack = $requestStack;
+        $this->allowAnonymous = $allowAnonymous;
     }
 
     /**

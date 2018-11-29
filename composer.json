@@ -41,9 +41,6 @@
         "doctrine/annotations": "^1.2",
         "doctrine/common": "^2.4"
     },
-    "suggest": {
-        "payum/payum-bundle": "Allow to automatize the payment process"
-    },
     "autoload": {
         "psr-4": {
             "GGGGino\\SkuskuCartBundle\\": ""
