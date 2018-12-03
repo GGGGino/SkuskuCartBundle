@@ -82,7 +82,7 @@ class CartManager
         $cart = $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')->findOneByCustomer($customer);
 
         if( !$cart )
-            $cart = $this->createNewCart();
+            $cart = $this->createNewCart($customer);
 
         return $cart;
     }
