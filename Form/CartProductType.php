@@ -4,6 +4,7 @@ namespace GGGGino\SkuskuCartBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,10 +20,13 @@ class CartProductType extends AbstractType
                     'readonly' => true,
                 )
             ))
-            ->add('quantity', IntegerType::class,
-                array(
-                    'label' => 'quantity'
-                ))
+            ->add('quantity', IntegerType::class, array(
+                'label' => 'quantity'
+            ))
+            ->add('getProductPrice', MoneyType::class, array(
+                'label' => 'single price',
+                'disabled' => true
+            ))
             ->add('getSubtotal', null, array(
                 'disabled' => true
             ));

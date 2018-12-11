@@ -5,6 +5,8 @@ namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 use GGGGino\SkuskuCartBundle\Form\CartProductType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,10 +21,10 @@ class CartStep1FormType extends AbstractType
                 'class' => 'step1'
             )
         ))
-        ->add('getTotalQuantity', null, array(
+        ->add('getTotalQuantity', IntegerType::class, array(
             'disabled' => true
         ))
-        ->add('getTotalPrice', null, array(
+        ->add('getTotalPrice', MoneyType::class, array(
             'disabled' => true
         ));
     }
