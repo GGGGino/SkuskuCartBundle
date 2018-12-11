@@ -78,6 +78,8 @@ class OrderManager
         $order->setCurrency($cart->getCurrency());
         $order->setLang($cart->getLang());
 
+        $this->setCartOrdered($cart);
+
         return $order;
     }
 
@@ -88,5 +90,10 @@ class OrderManager
     {
         $this->em->persist($order);
         $this->em->flush();
+    }
+
+    public function setCartOrdered(SkuskuCart $cart)
+    {
+        $cart->setStatus(SkuskuCart::STATUS_ORDERED);
     }
 }

@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SkuskuCart
 {
+    const STATUS_INITIAL = 0;
+    const STATUS_ORDERED = 1;
     /**
      * @var int
      *
@@ -73,6 +75,13 @@ class SkuskuCart
      * @ORM\Column(name="date_upd", type="datetime")
      */
     private $dateUpd;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status = self::STATUS_INITIAL;
 
 
     /**
@@ -278,6 +287,24 @@ class SkuskuCart
     public function setPayment($payment)
     {
         $this->payment = $payment;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     * @return SkuskuCart
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
         return $this;
     }
 }

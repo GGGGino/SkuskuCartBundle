@@ -10,5 +10,11 @@ namespace GGGGino\SkuskuCartBundle\Repository;
  */
 class CartRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findByUser(){}
+    /**
+     * Prendo tutti i carrelli attivi non eliminati
+     */
+    public function getNonOrderedCart()
+    {
+
+    }
 }
