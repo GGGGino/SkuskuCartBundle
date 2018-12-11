@@ -22,6 +22,46 @@
                 <source>subtotal</source>
                 <target>Subtotale</target>
             </trans-unit>
+            <trans-unit id="form.credit_card.holder">
+                <source>form.credit_card.holder</source>
+                <target>Nominativo carta</target>
+            </trans-unit>
+            <trans-unit id="button.next">
+                <source>button.next</source>
+                <target>Avanti</target>
+            </trans-unit>
+            <trans-unit id="button.reset">
+                <source>button.reset</source>
+                <target>Reset</target>
+            </trans-unit>
+            <trans-unit id="get_total_quantity">
+                <source>get_total_quantity</source>
+                <target>Quantità totale</target>
+            </trans-unit>
+            <trans-unit id="get_total_price">
+                <source>get_total_price</source>
+                <target>Prezzo totale</target>
+            </trans-unit>
+            <trans-unit id="cart_resume">
+                <source>cart_resume</source>
+                <target>Riepilogo Carrello</target>
+            </trans-unit>
+            <trans-unit id="chose_payment">
+                <source>chose_payment</source>
+                <target>Scegli pagamento</target>
+            </trans-unit>
+            <trans-unit id="payment">
+                <source>payment</source>
+                <target>Pagamento</target>
+            </trans-unit>
+            <trans-unit id="no_products_in_cart">
+                <source>no_products_in_cart</source>
+                <target>Non ci sono prodotti nel carrello</target>
+            </trans-unit>
+            <trans-unit id="cart_empty">
+                <source>cart_empty</source>
+                <target>Carrello vuoto</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -22,9 +22,11 @@ class CartStep1FormType extends AbstractType
             )
         ))
         ->add('getTotalQuantity', IntegerType::class, array(
+            'label' => 'get_total_quantity',
             'disabled' => true
         ))
         ->add('getTotalPrice', MoneyType::class, array(
+            'label' => 'get_total_price',
             'disabled' => true
         ));
     }

@@ -1,6 +1,8 @@
 <?php
 
 namespace GGGGino\SkuskuCartBundle\Repository;
+use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
+use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
 
 /**
  * CartRepository
@@ -13,8 +15,29 @@ class CartRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Prendo tutti i carrelli attivi non eliminati
      */
-    public function getNonOrderedCart()
+    public function getNonOrderedCarts()
     {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.status = :status')
+            ->setParameter('status', SkuskuCart::STATUS_INITIAL)
+            ->getQuery();
 
+        return $qb->execute();
+    }
+
+    /**
+     * Prendo tutti i carrelli attivi non eliminati
+     */
+    public function getOneNonOrderedCartByCustomer(SkuskuCustomerInterface $customer)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.status = :status')
+            ->andWhere('c.customer = :customer')
+            ->setParameter('status', SkuskuCart::STATUS_INITIAL)
+            ->setParameter('customer', $customer)
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $qb->getOneOrNullResult();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 
+use Craue\FormFlowBundle\Form\FormFlowInterface;
 use Payum\Core\Bridge\Symfony\Form\Type\CreditCardType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

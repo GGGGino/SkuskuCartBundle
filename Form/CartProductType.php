@@ -16,6 +16,7 @@ class CartProductType extends AbstractType
     {
         $builder
             ->add('product', null, array(
+                'label' => 'product',
                 'attr' => array(
                     'readonly' => true,
                 )
@@ -24,10 +25,11 @@ class CartProductType extends AbstractType
                 'label' => 'quantity'
             ))
             ->add('getProductPrice', MoneyType::class, array(
-                'label' => 'single price',
+                'label' => 'price',
                 'disabled' => true
             ))
-            ->add('getSubtotal', null, array(
+            ->add('getSubtotal', MoneyType::class, array(
+                'label' => 'subtotal',
                 'disabled' => true
             ));
     }

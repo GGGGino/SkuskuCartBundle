@@ -79,7 +79,8 @@ class CartManager
         if( !$this->allowAnonymous && !$customer )
             throw new AccessDeniedException("Anonymous users cannot buy");
 
-        $cart = $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')->findOneByCustomer($customer);
+        $cart = $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')
+            ->getOneNonOrderedCartByCustomer($customer);
 
         if( !$cart )
             $cart = $this->createNewCart($customer);

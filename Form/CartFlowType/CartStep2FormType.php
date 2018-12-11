@@ -11,7 +11,9 @@ class CartStep2FormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('paymentMethod', GatewayChoiceType::class);
+        $builder->add('paymentMethod', GatewayChoiceType::class, array(
+            'label' => 'payment_method'
+        ));
     }
 
     public function getBlockPrefix()

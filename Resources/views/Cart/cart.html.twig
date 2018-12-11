@@ -2,7 +2,8 @@
     {% include '@CraueFormFlow/FormFlow/stepList.html.twig' %}
 </div>
 
-{{ form_start(form) }}
+{% if form.vars.data.cart.products is not empty %}
+	{{ form_start(form) }}
 	{{ form_errors(form) }}
 
 	{% for message in app.flashes('success') %}
@@ -22,6 +23,9 @@
 	} %}
 
 	<script>
-		
+
 	</script>
-{{ form_end(form) }}
+	{{ form_end(form) }}
+{% else %}
+	<h2>{{ "cart_empty"|trans }}</h2>
+{% endif %}

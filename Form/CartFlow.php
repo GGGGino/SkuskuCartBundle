@@ -13,6 +13,7 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
 use GGGGino\SkuskuCartBundle\Service\OrderManager;
 use Payum\Core\Gateway;
+use Payum\Core\GatewayInterface;
 use Payum\Core\Payum;
 use Payum\Core\Request\Capture;
 use Symfony\Component\Form\FormInterface;
@@ -69,6 +70,30 @@ class CartFlow extends CartFlowBase
         $this->cartManager = $cartManager;
         $this->requestStack = $requestStack;
         $this->orderManager = $orderManager;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function loadStepsConfig()
+    {
+        $this->configSteps['payment']['skip'] = function($estimatedCurrentStepNumber, FormFlowInterface $flow) {
+            /** @var CartForm $data */
+            $data = $flow->getFormData();
+
+            $paymentMethod = $data->getPaymentMethod();
+
+            // se non è settato vuol dire che non ci sono ancora arrivato
+            if( !$paymentMethod )
+                return false;
+
+            /** @var GatewayInterface $gateway */
+            $gateway = $this->payum->getGateway($paymentMethod);
+
+            return true;
+        };
+
+        return $this->configSteps;
     }
 
     /**

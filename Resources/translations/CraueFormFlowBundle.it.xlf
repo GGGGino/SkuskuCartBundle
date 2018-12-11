@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="button.next">
+                <source>button.next</source>
+                <target>Avanti</target>
+            </trans-unit>
+            <trans-unit id="button.finish">
+                <source>button.finish</source>
+                <target>Finito</target>
+            </trans-unit>
+            <trans-unit id="button.back">
+                <source>button.back</source>
+                <target>Indietro</target>
+            </trans-unit>
+            <trans-unit id="button.reset">
+                <source>button.reset</source>
+                <target>Reset</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

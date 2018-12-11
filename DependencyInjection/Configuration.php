@@ -20,15 +20,15 @@ class Configuration implements ConfigurationInterface
         $defaultSteps = array(
             'cart' => array(
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType',
-                'label' => 'Cart resume'
+                'label' => 'cart_resume'
             ),
             'chosePayment' => array(
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep2FormType',
-                'label' => 'Chose payment'
+                'label' => 'chose_payment'
             ),
             'payment' => array(
                 'form_type' => 'GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep3FormType',
-                'label' => 'Payment'
+                'label' => 'payment'
             )
         );
 

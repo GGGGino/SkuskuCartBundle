@@ -13,7 +13,7 @@
             z-index: 20;
             background: #FFFFFF;
             top: 100%;
-            left: -200px;
+            right: 0;
         }
         .cartPreview:hover .details{
             -webkit-transition: all .5s; /* Safari */
@@ -68,7 +68,7 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <h2>No products in cart</h2>
+                    <h2>{{ "cart_empty"|trans }}</h2>
                 {% endif %}
                 <a href="{{ path('cart_page') }}" class="btn btn-primary">Cart</a>
             </div>
