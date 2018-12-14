@@ -30,6 +30,8 @@ services:
         public: true
         calls:
             - [setPayum, ['@payum']]
+            - [setTokenStorage, ['@security.token_storage']]
+            - [setAllowAnonymous, ['%ggggino_skuskucart.allow_anonymous_shop%']]
 
     GGGGino\SkuskuCartBundle\Service\SkuskuHelper:
         public: true

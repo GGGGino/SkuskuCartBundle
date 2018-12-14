@@ -28,8 +28,11 @@ class CartRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Prendo tutti i carrelli attivi non eliminati
      */
-    public function getOneNonOrderedCartByCustomer(SkuskuCustomerInterface $customer)
+    public function getOneNonOrderedCartByCustomer(SkuskuCustomerInterface $customer = null)
     {
+        if( !$customer )
+            return null;
+
         $qb = $this->createQueryBuilder('c')
             ->where('c.status = :status')
             ->andWhere('c.customer = :customer')

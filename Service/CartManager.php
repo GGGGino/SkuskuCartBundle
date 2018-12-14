@@ -3,6 +3,7 @@
 namespace GGGGino\SkuskuCartBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use GGGGino\SkuskuCartBundle\Entity\CartForm;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCustomerInterface;
@@ -12,7 +13,6 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class CartManager
@@ -76,10 +76,8 @@ class CartManager
         if( !($customer instanceof UserInterface) )
             $customer = null;
 
-        if( !$this->allowAnonymous && !$customer )
-            throw new AccessDeniedException("Anonymous users cannot buy");
-
-        $cart = $this->em->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')
+        $cart = $this->em
+            ->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')
             ->getOneNonOrderedCartByCustomer($customer);
 
         if( !$cart )
@@ -152,9 +150,6 @@ class CartManager
 
             if( !($customer instanceof UserInterface) )
                 $customer = null;
-
-            if( !$this->allowAnonymous && !$customer )
-                throw new AccessDeniedException("Anonymous users cannot buy");
 
             $this->addProductToCart($productReference, $quantity);
         }
@@ -241,6 +236,14 @@ class CartManager
         $order->setTotalProducts($totPrice);
 
         return $order;
+    }
+
+    /**
+     * @param CartForm $formData
+     */
+    public function emptyCart(CartForm $formData)
+    {
+        $formData->getCart()->emptyProducts();
     }
 
     /**

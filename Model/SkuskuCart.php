@@ -26,7 +26,7 @@ class SkuskuCart
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="SkuskuCartProduct", mappedBy="cart", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="SkuskuCartProduct", mappedBy="cart", fetch="EXTRA_LAZY", cascade={"remove"}, orphanRemoval=true)
      */
     private $products;
 
@@ -186,6 +186,14 @@ class SkuskuCart
     public function setProducts($products)
     {
         $this->products = $products;
+        return $this;
+    }
+    /**
+     * @return SkuskuCart
+     */
+    public function emptyProducts()
+    {
+        $this->products->clear();
         return $this;
     }
 

@@ -2,7 +2,9 @@
 
 namespace GGGGino\SkuskuCartBundle\Form;
 
+use Craue\FormFlowBundle\Event\FlowExpiredEvent;
 use Craue\FormFlowBundle\Form\FormFlow;
+use Craue\FormFlowBundle\Form\FormFlowEvents;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
 use GGGGino\SkuskuCartBundle\Entity\CartForm;
 use GGGGino\SkuskuCartBundle\Event\PostPaymentCartEvent;
@@ -23,6 +25,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CartFlow extends CartFlowBase
 {
@@ -31,6 +35,8 @@ class CartFlow extends CartFlowBase
     const POST_SUBMIT = 'skusku_cart.post_submit';
 
     const POST_PAYMENT = 'skusku_cart.post_payment';
+
+    const TRANSITION_RESET_CART = 'emptycart';
 
     /**
      * @var CartManager
@@ -51,6 +57,16 @@ class CartFlow extends CartFlowBase
      * @var OrderManager
      */
     private $orderManager;
+
+    /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
+
+    /**
+     * @var bool
+     */
+    private $allowAnonymous;
 
     /**
      * CartFlowBase constructor.
@@ -108,6 +124,17 @@ class CartFlow extends CartFlowBase
     {
         if ($this->isValid($form)) {
             $this->saveCurrentStepData($form);
+
+            if( !$this->allowAnonymous )
+                throw new AccessDeniedException("Anonymous users cannot buy");
+
+            // @todo done this because craue form flow doesn't permit to add a custom action
+            if( $this->requestStack->getCurrentRequest()->request->get('flow_cart_transition') == self::TRANSITION_RESET_CART ){
+                $this->emptyCart($formData);
+                $this->reset();
+                $form = $this->createForm();
+                return;
+            }
 
             if ($this->nextStep()) {
                 // form for the next step
@@ -179,6 +206,13 @@ class CartFlow extends CartFlowBase
         // so you can do whatever you want for example you can just print status and payment details.
     }
 
+    protected function emptyCart(CartForm $formData)
+    {
+        $this->cartManager->emptyCart($formData);
+        $this->cartManager->persistCart($formData->getCart());
+        $this->cartManager->flushCart($formData->getCart());
+    }
+
     /**
      * @param mixed $payum
      * @return CartFlow
@@ -186,6 +220,26 @@ class CartFlow extends CartFlowBase
     public function setPayum($payum)
     {
         $this->payum = $payum;
+        return $this;
+    }
+
+    /**
+     * @param TokenStorage $tokenStorage
+     * @return CartFlow
+     */
+    public function setTokenStorage($tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+        return $this;
+    }
+
+    /**
+     * @param boolean $allowAnonymous
+     * @return CartFlow
+     */
+    public function setAllowAnonymous($allowAnonymous)
+    {
+        $this->allowAnonymous = $allowAnonymous;
         return $this;
     }
 }

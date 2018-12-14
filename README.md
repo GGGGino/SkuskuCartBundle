@@ -34,6 +34,9 @@ $bundles = array(
     // Multi step form
     new Craue\FormFlowBundle\CraueFormFlowBundle(),
     
+    // Payment bundle
+    new Payum\Bundle\PayumBundle\PayumBundle(),
+    
     // Cart bundle
     new GGGGino\SkuskuCartBundle\GGGGinoSkuskuCartBundle(),
 );
