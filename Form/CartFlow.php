@@ -115,7 +115,7 @@ class CartFlow extends CartFlowBase
     /**
      * @param $form
      * @param CartForm $formData
-     * @return Response|void
+     * @return Response|null
      *
      * @throws \Payum\Core\Reply\ReplyInterface
      * @throws null
@@ -129,11 +129,11 @@ class CartFlow extends CartFlowBase
                 throw new AccessDeniedException("Anonymous users cannot buy");
 
             // @todo done this because craue form flow doesn't permit to add a custom action
-            if( $this->requestStack->getCurrentRequest()->request->get('flow_cart_transition') == self::TRANSITION_RESET_CART ){
+            if( $this->requestStack->getCurrentRequest()->request->get('flow_cart_transition') == self::TRANSITION_RESET_CART ) {
                 $this->emptyCart($formData);
                 $this->reset();
                 $form = $this->createForm();
-                return;
+                return null;
             }
 
             if ($this->nextStep()) {
@@ -145,7 +145,7 @@ class CartFlow extends CartFlowBase
                 $finalCart = $formData->getCart();
 
                 if ($this->hasListeners(self::PRE_SUBMIT)) {
-                    $event = new PreSubmitCartEvent($this, $formData);
+                    $event = new PreSubmitCartEvent($this, $finalCart);
                     $this->eventDispatcher->dispatch(self::PRE_SUBMIT, $event);
                 }
 
@@ -176,7 +176,7 @@ class CartFlow extends CartFlowBase
                 $this->reset(); // remove step data from the session
 
                 if ($this->hasListeners(self::POST_SUBMIT)) {
-                    $event = new PostSubmitCartEvent($this, $formData);
+                    $event = new PostSubmitCartEvent($this, $finalCart);
                     $this->eventDispatcher->dispatch(self::POST_SUBMIT, $event);
                 }
 

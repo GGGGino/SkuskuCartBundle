@@ -49,9 +49,9 @@ class DoctorDbCommand extends ContainerAwareCommand
         /** @var SkuskuCurrencyInterface[] $Currencies */
         $currencies = $em->getRepository(SkuskuCurrencyInterface::class)->findAll();
 
-        if( count($currencies) > 0 ) {
+        if ( count($currencies) > 0 ) {
             return 'Currency: <info> correct</info>';
-        }else{
+        } else {
             return 'Currency: <error>not correct</error>';
         }
     }

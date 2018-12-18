@@ -57,7 +57,7 @@ class CartController extends Controller
 
         $response = $flow->handleSubmit($form, $formData);
 
-        if( $response instanceof RedirectResponse ){
+        if ( $response instanceof RedirectResponse ) {
             return $response;
         }
 
@@ -119,7 +119,7 @@ class CartController extends Controller
 
         $flow->handleDone($payment, $status);
 
-        if( $this->container->hasParameter('ggggino_skuskucart.templates.done_layout') ) {
+        if ( $this->container->hasParameter('ggggino_skuskucart.templates.done_layout') ) {
             return $this->render($this->container->getParameter('ggggino_skuskucart.templates.done_layout'), array(
                 'status' => $status,
                 'payment' => $payment

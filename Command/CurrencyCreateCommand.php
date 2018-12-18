@@ -61,7 +61,7 @@ class CurrencyCreateCommand extends ContainerAwareCommand
 
         // If i make a mistake writing the class this enforce you to chose
         // @todo now i'm forced to write thee entity namespace wth 2 backslash otherwise it will be removed
-        if( !in_array($input->getArgument('entity'), $abstractEntities) ){
+        if ( !in_array($input->getArgument('entity'), $abstractEntities) ) {
             $output->writeln('<error>Entity: ' . $input->getArgument('entity') . ' Not found</error>');
             $question = new ChoiceQuestion(
                 'Please select the entity',
@@ -93,7 +93,7 @@ class CurrencyCreateCommand extends ContainerAwareCommand
 
         $classReflectedProps = $classReflected->getProperties();
 
-        foreach($classReflectedProps as $key => $value){
+        foreach($classReflectedProps as $key => $value) {
             $question = new Question('Set value for (' . $value->name . '): ', false);
 
             $response = $helper->ask($input, $output, $question);

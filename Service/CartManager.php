@@ -68,20 +68,22 @@ class CartManager
      */
     public function getCartFromCustomer(SkuskuCustomerInterface $customer = null)
     {
-        if( !$customer ) {
+        if ( !$customer ) {
             $customer = $this->tokenStorage->getToken()->getUser();
         }
 
         // If the user is anon. the arg $customer is a string, so i check it
-        if( !($customer instanceof UserInterface) )
+        if ( !($customer instanceof SkuskuCustomerInterface) ) {
             $customer = null;
+        }
 
         $cart = $this->em
             ->getRepository('GGGGino\SkuskuCartBundle\Model\SkuskuCart')
             ->getOneNonOrderedCartByCustomer($customer);
 
-        if( !$cart )
+        if ( !$cart ) {
             $cart = $this->createNewCart($customer);
+        }
 
         return $cart;
     }
@@ -132,8 +134,9 @@ class CartManager
      */
     public function addProductToCartForm(Request $request, FormInterface $form)
     {
-        if( $this->handled )
+        if ( $this->handled ) {
             return;
+        }
 
         $form->handleRequest($request);
 
@@ -148,8 +151,8 @@ class CartManager
             /** @var SkuskuProductInterface $productReference */
             $productReference = $this->em->getReference(SkuskuProductInterface::class, $idProduct);
 
-            if( !($customer instanceof UserInterface) )
-                $customer = null;
+            //if( !($customer instanceof UserInterface) )
+            //    $customer = null;
 
             $this->addProductToCart($productReference, $quantity);
         }
@@ -179,10 +182,10 @@ class CartManager
         $this->em->persist($cart);
 
         /** @var SkuskuCartProduct $productCart */
-        if( $productCart = $cart->getProduct($product)->first() ){
+        if ( $productCart = $cart->getProduct($product)->first() ) {
             // @todo what?? $productCart->getQuantity() + $quantity
             $productCart->setQuantity($productCart->getQuantity() + $quantity);
-        }else{
+        } else {
             $productCart = new SkuskuCartProduct();
             $productCart->setProduct($product);
             $productCart->setQuantity($quantity);

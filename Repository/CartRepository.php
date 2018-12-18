@@ -30,8 +30,9 @@ class CartRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getOneNonOrderedCartByCustomer(SkuskuCustomerInterface $customer = null)
     {
-        if( !$customer )
+        if ( !$customer ) {
             return null;
+        }
 
         $qb = $this->createQueryBuilder('c')
             ->where('c.status = :status')
