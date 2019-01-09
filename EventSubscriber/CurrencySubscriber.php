@@ -34,10 +34,6 @@ class CurrencySubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if (!$request->hasPreviousSession()) {
-            return;
-        }
-
         // try to see if the currency has been set as a "cu" routing parameter
         if ($currency = $request->query->get('cu')) {
             $request->attributes->set('skusku_cu', $currency);

@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ProductController
+ * @package GGGGino\SkuskuCartBundle\Controller
+ */
 class ProductController extends Controller
 {
     /**

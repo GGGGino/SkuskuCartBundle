@@ -2,19 +2,12 @@
 
 namespace GGGGino\SkuskuCartBundle\Command;
 
-use Allyou\ManagementBundle\Manipulator\AllyouServicesManipulator;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Table;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
 use GGGGino\SkuskuCartBundle\Service\SkuskuHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Sonata\AdminBundle\Command\Validators;
-use Sonata\AdminBundle\Generator\AdminGenerator;
-use Sonata\AdminBundle\Generator\ControllerGenerator;
-use Sonata\AdminBundle\Manipulator\ServicesManipulator;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

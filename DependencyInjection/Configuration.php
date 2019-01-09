@@ -6,7 +6,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Class GGGGinoSkuskuCartExtension
+ * Class Configuration
  * @package Allyou\ManagementBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface

@@ -2,22 +2,10 @@
 
 namespace GGGGino\SkuskuCartBundle\Command;
 
-use Allyou\ManagementBundle\Manipulator\AllyouServicesManipulator;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Sonata\AdminBundle\Command\Validators;
-use Sonata\AdminBundle\Generator\AdminGenerator;
-use Sonata\AdminBundle\Generator\ControllerGenerator;
-use Sonata\AdminBundle\Manipulator\ServicesManipulator;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class CartClearCommand

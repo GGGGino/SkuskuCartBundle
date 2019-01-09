@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class CurrencyCreateCommand
+ * Class DoctorDbCommand
  * @package GGGGino\SkuskuCartBundle\Command
  */
 class DoctorDbCommand extends ContainerAwareCommand
@@ -39,7 +39,7 @@ class DoctorDbCommand extends ContainerAwareCommand
      * Check if exists at least one currency
      * Tip: ggggino_skusku:currency:create
      *
-     * @return array(string, string)
+     * @return string
      */
     private function checkCurrencyOnDb()
     {
