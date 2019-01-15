@@ -36,7 +36,8 @@ class CartProductType extends AbstractType
                 'disabled' => true
             ))
             ->add('quantity', IntegerType::class, array(
-                'label' => 'quantity'
+                'label' => 'quantity',
+                'attr' => array('class' => 'quantity')
             ))
             ->add('getProductPrice', MoneyType::class, array(
                 'label' => 'price',

@@ -23,7 +23,23 @@
 	} %}
 
 	<script>
+		jQuery('.actions .fa-trash').on('click', function(e) {
+			var $button = $(this);
+			$.get( $button.data('idcartproducturl'), function( data ) {
+				location.reload();
+			});
+		});
 
+		jQuery('.actions .fa-sync').on('click', function(e) {
+			var $button = $(this),
+				postParams = {
+					quantity: $button.closest('.form-group').parent().find('.quantity').val()
+				};
+
+			$.post( $button.data('idcartproducturl'), postParams, function( data ) {
+				location.reload();
+			});
+		});
 	</script>
 	{{ form_end(form) }}
 {% else %}

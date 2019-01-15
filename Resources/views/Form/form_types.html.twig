@@ -1,6 +1,6 @@
 {% block skusku_product_buttons_widget %}
     <div class="actions">
-        <a><i data-idcartproducturl="{{ data.id }}" class="fa fa-trash"></i></a>
-        <a><i data-idcartproducturl="{{ data.id }}" class="fa fa-sync"></i></a>
+        <a><i data-idcartproducturl="{{ path('remove_item_from_cart', {'product': data.id}) }}" class="fa fa-trash"></i></a>
+        <a><i data-idcartproducturl="{{ path('update_item_in_cart', {'product': data.id}) }}" class="fa fa-sync"></i></a>
     </div>    
 {% endblock %}
