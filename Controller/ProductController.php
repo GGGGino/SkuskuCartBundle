@@ -3,7 +3,7 @@
 namespace GGGGino\SkuskuCartBundle\Controller;
 
 use Allyou\ManagementCafBundle\Entity\Product;
-use GGGGino\SkuskuCartBundle\Form\AddToCartType;
+use GGGGino\SkuskuCartBundle\Form\Type\AddToCartType;
 use GGGGino\SkuskuCartBundle\Form\CartFlow;
 use GGGGino\SkuskuCartBundle\Model\SkuskuProductInterface;
 use GGGGino\SkuskuCartBundle\Service\CartManager;

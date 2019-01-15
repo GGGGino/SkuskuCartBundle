@@ -2,7 +2,7 @@
 
 namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 
-use GGGGino\SkuskuCartBundle\Form\CartProductType;
+use GGGGino\SkuskuCartBundle\Form\Type\CartProductType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
