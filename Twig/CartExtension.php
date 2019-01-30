@@ -98,8 +98,9 @@ class CartExtension extends AbstractExtension
      */
     public function renderPreviewCart($template = null)
     {
-        if( !$template )
+        if (!$template) {
             $template = $this->templatePreviewCart;
+        }
 
         /** @var SkuskuCart $cart */
         $cart = $this->cartManager->getCartFromCustomer();
@@ -117,8 +118,9 @@ class CartExtension extends AbstractExtension
      */
     public function renderCurrencyCart($template = null)
     {
-        if( !$template )
+        if (!$template) {
             $template = $this->templateCurrencyCart;
+        }
 
         /** @var SkuskuCurrencyInterface[] $currencies */
         $currencies = $this->currencyManager->getActiveCurrencies();
@@ -137,8 +139,9 @@ class CartExtension extends AbstractExtension
      */
     public function renderLangCart($template = null)
     {
-        if( !$template )
+        if (!$template) {
             $template = $this->templateLangCart;
+        }
 
         /** @var SkuskuLangInterface[] $languages */
         $languages = $this->langManager->getActiveLanguages();

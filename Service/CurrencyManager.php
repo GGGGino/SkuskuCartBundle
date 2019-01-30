@@ -65,8 +65,9 @@ class CurrencyManager implements CurrencyManagerInterface
         /** @var SkuskuCurrencyInterface $locale */
         $locale = $this->em->getRepository(SkuskuCurrencyInterface::class)->findOneByIsoCode($currencyIdentifier);
 
-        if( !$locale )
+        if( !$locale ) {
             throw new CurrencyNotFoundException();
+        }
 
         return $locale;
     }

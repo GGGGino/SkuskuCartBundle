@@ -12,8 +12,9 @@ class CurrencyNotFoundException extends \Exception
      */
     public function __construct($message = "", $code = 0, \Exception $previous = null)
     {
-        if( !empty($message) )
+        if (!empty($message)) {
             $message = ": " . $message;
+        }
 
         $finalMessage = sprintf("Currency not found, maybe the db table is empty%s", $message);
         parent::__construct($finalMessage, $code, $previous);

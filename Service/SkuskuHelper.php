@@ -40,7 +40,7 @@ class SkuskuHelper
     {
         $resultArray = array();
 
-        foreach($this->getAbstractEntities() as $key => $value){
+        foreach ($this->getAbstractEntities() as $key => $value) {
             $resultArray[] = array(
                 'interface' => $key,
                 'concrete' => $value

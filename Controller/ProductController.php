@@ -39,7 +39,7 @@ class ProductController extends Controller
             ->findAll();
 
         /** @var SkuskuProductInterface $product */
-        foreach($products as $product) {
+        foreach ($products as $product) {
             /** @var Form $addToCartForm */
             $addToCartForm = $this->createForm(AddToCartType::class, array(
                 'idProduct' => $product->getId()

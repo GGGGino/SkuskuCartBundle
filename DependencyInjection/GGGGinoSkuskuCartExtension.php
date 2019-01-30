@@ -31,7 +31,7 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
 
         $container->setParameter('ggggino_skuskucart.stepform_class', $config['stepform_class']);
 
-        foreach($config['templates'] as $key => $template) {
+        foreach ($config['templates'] as $key => $template) {
             $container->setParameter('ggggino_skuskucart.templates.' . $key, $template);
         }
 
@@ -95,7 +95,7 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
      */
     private function prependPayumGateway(ContainerBuilder $container)
     {
-        if( !$container->hasExtension('payum') ){
+        if (!$container->hasExtension('payum')) {
             die('non ce payum');
         }
 
@@ -110,7 +110,7 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
         $arrayEntities = $arrayEntities['gateways'];
         $finalEntities = array();
 
-        foreach( $arrayEntities as $key => $value ){
+        foreach ($arrayEntities as $key => $value) {
             $labelName = isset($value['name']) ? $value['name'] : $key;
             $finalEntities[$labelName] = $key;
         }

@@ -18,7 +18,8 @@ class DoctrineRelatedPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if( !$container->hasDefinition('doctrine.orm.listeners.resolve_target_entity') )
+        if (!$container->hasDefinition('doctrine.orm.listeners.resolve_target_entity')) {
             return;
+        }
     }
 }

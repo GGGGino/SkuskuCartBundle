@@ -10,5 +10,5 @@ namespace GGGGino\SkuskuCartBundle\Repository;
  */
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findByUser(){}
+    public function findByUser() {}
 }
