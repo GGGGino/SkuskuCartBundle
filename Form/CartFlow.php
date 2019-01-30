@@ -6,6 +6,7 @@ use Craue\FormFlowBundle\Form\FormFlowInterface;
 use GGGGino\SkuskuCartBundle\Entity\CartForm;
 use GGGGino\SkuskuCartBundle\Event\PostPaymentCartEvent;
 use GGGGino\SkuskuCartBundle\Event\PostSubmitCartEvent;
+use GGGGino\SkuskuCartBundle\Event\PrePersistOrderEvent;
 use GGGGino\SkuskuCartBundle\Event\PreSubmitCartEvent;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
@@ -28,37 +29,39 @@ class CartFlow extends CartFlowBase
 
     const POST_PAYMENT = 'skusku_cart.post_payment';
 
+    const PRE_PERSIST_ORDER = 'skusku_cart.pre_persist_order';
+
     const TRANSITION_RESET_CART = 'emptycart';
 
     /**
      * @var CartManager
      */
-    private $cartManager;
+    protected $cartManager;
 
     /**
      * @var RequestStack
      */
-    private $requestStack;
+    protected $requestStack;
 
     /**
      * @var Payum
      */
-    private $payum;
+    protected $payum;
 
     /**
      * @var OrderManager
      */
-    private $orderManager;
+    protected $orderManager;
 
     /**
      * @var TokenStorage
      */
-    private $tokenStorage;
+    protected $tokenStorage;
 
     /**
      * @var bool
      */
-    private $allowAnonymous;
+    protected $allowAnonymous;
 
     /**
      * CartFlowBase constructor.
@@ -192,6 +195,12 @@ class CartFlow extends CartFlowBase
         }
 
         $order = $this->orderManager->buildOrderFromCart($payment->getCart());
+
+        if ($this->hasListeners(self::PRE_PERSIST_ORDER)) {
+            $event = new PrePersistOrderEvent($this, $order);
+            $this->eventDispatcher->dispatch(self::PRE_PERSIST_ORDER, $event);
+        }
+
         $this->orderManager->saveOrder($order);
 
         // you have order and payment status

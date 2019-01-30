@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SkuskuOrder
 {
+    const STATUS_PAYED = 0;
+    const STATUS_NOT_PAYED = 1;
+
     /**
      * @var int
      *
@@ -84,6 +87,13 @@ class SkuskuOrder
      * @ORM\Column(name="total_products", type="decimal", precision=10, scale=2)
      */
     protected $totalProducts;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status = self::STATUS_PAYED;
 
 
     /**
@@ -276,6 +286,24 @@ class SkuskuOrder
     public function setTotalProducts($totalProducts)
     {
         $this->totalProducts = $totalProducts;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     * @return SkuskuOrder
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
         return $this;
     }
 }
