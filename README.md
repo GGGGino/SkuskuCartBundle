@@ -316,6 +316,7 @@ ggggino_skuskucart:
 | skusku_cart.pre_submit | `CartFlow::PRE_SUBMIT` | `CartForm` | Here you can modify entities or do custom action before the persist |
 | skusku_cart.post_submit | `CartFlow::POST_SUBMIT` | `CartForm` | Here you can do custom action after the persist |
 | skusku_cart.post_payment | `CartFlow::POST_PAYMENT` | `SkuskuPayment`, $status | Here you can do "anything" after the payment response |
+| skusku_cart.pre_persist_order | `CartFlow::PRE_PERSIST_ORDER` | `SkuskuOrder` | Here you can manipulate the Order before the persist |
 
 ## Templates
 
