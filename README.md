@@ -65,6 +65,7 @@ Bundle complete configuration
 # config.yml
 ggggino_skuskucart:
     allow_anonymous_shop: false
+    cart_mode: 'single_page'
     stepform:
         cart:
             form_type: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartStep1FormType
