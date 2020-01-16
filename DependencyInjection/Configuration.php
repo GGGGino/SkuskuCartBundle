@@ -42,9 +42,19 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('allow_anonymous_shop')
                     ->defaultTrue()
                 ->end()
+                ->booleanNode('additional_fields')
+                    ->defaultTrue()
+                ->end()                
                 ->scalarNode('stepform_class')
                     ->defaultValue('GGGGino\SkuskuCartBundle\Form\CartFlow')
                 ->end()
+                ->enumNode('cart_mode')
+                    ->values(array(
+                        "single_page",
+                        "steps",
+                    ))
+                    ->defaultValue('steps')
+                ->end()                
                 ->arrayNode('stepform')
                     ->defaultValue($defaultSteps)
                     ->treatNullLike($defaultSteps)

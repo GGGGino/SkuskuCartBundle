@@ -34,6 +34,8 @@ class CartController extends Controller
      */
     public function cartAction()
     {
+        $cartMode = $this->getParameter('ggggino_skuskucart.cart_mode');
+
         /** @var CartManager $cartManager */
         $cartManager = $this->get(CartManager::class);
 
