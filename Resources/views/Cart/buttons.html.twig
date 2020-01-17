@@ -8,7 +8,7 @@
 		Thus, all buttons are defined in reverse order and will be reversed again via CSS.
 		See http://stackoverflow.com/questions/1963245/multiple-submit-buttons-specifying-default-button
 	#}
-	{%- set isLastStep = flow.getCurrentStepNumber() == flow.getLastStepNumber() -%}
+	{%- set isLastStep = (flow.getCurrentStepNumber() == flow.getLastStepNumber() or cart_mode == 'single_page') -%}
 	{%- set craue_formflow_button_class_last = craue_formflow_button_class_last | default('craue_formflow_button_last') -%}
 	{%- set craue_formflow_button_class_last = isLastStep
 			? craue_formflow_button_class_finish | default(craue_formflow_button_class_last)

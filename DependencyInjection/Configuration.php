@@ -37,6 +37,8 @@ class Configuration implements ConfigurationInterface
             'cart_layout' => 'GGGGinoSkuskuCartBundle::cart_page.html.twig'
         );
 
+        $defaultExtraFields = array();
+
         $rootNode
             ->children()
                 ->booleanNode('allow_anonymous_shop')
@@ -70,6 +72,22 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                 ->end()
+                ->arrayNode('extra_fields')
+                    ->defaultValue($defaultExtraFields)
+                    ->treatNullLike($defaultExtraFields)
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('id')->end()
+                            ->scalarNode('type')->end()                            
+                            ->scalarNode('label')->end()
+                        ->end()
+                    ->end()
+                    ->beforeNormalization()
+                        ->always(function($items) use ($defaultExtraFields){
+                            return array_merge($defaultExtraFields, $items);
+                        })
+                    ->end()
+                ->end()                
                 ->arrayNode('templates')
                     ->defaultValue($defaultTemplates)
                     ->treatNullLike($defaultTemplates)

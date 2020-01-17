@@ -3,6 +3,7 @@
 namespace GGGGino\SkuskuCartBundle\Form\CartFlowType;
 
 use GGGGino\SkuskuCartBundle\Form\Type\CartProductType;
+use GGGGino\SkuskuCartBundle\Form\Type\AdditionalFieldsType;
 use Payum\Core\Bridge\Symfony\Form\Type\GatewayChoiceType;
 use Payum\Core\Bridge\Symfony\Form\Type\GatewayFactoriesChoiceType;
 use Craue\FormFlowBundle\Form\FormFlowInterface;
@@ -16,8 +17,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CartSinglePageFormType extends AbstractType
 {
+    protected $extra_fields;
+
+    public function __construct( $extra_fields ) {
+        $this->extra_fields = $extra_fields;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder->add('cartProducts', CollectionType::class, array(
             'entry_type' => CartProductType::class,
             'label' => false,
@@ -33,6 +42,11 @@ class CartSinglePageFormType extends AbstractType
             'label' => 'get_total_price',
             'disabled' => true
         ));
+
+        $builder->add('additionalFields', AdditionalFieldsType::class, array(
+            'mapped' => false,
+            'fields' => $this->extra_fields
+        ));        
 
         $builder->add('paymentMethod', GatewayChoiceType::class, array(
             'label' => 'payment_method'
@@ -54,6 +68,6 @@ class CartSinglePageFormType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'cartSinglePage';
+        return 'choosePayment';
     }
 }
