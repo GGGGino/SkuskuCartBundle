@@ -64,6 +64,11 @@ class CartFlow extends CartFlowBase
     protected $allowAnonymous;
 
     /**
+     * @var string
+     */
+    protected $cartMode;    
+
+    /**
      * CartFlowBase constructor.
      * @param array $configSteps
      * @param CartManager $cartManager
@@ -120,6 +125,7 @@ class CartFlow extends CartFlowBase
         if ($this->isValid($form)) {
             $this->saveCurrentStepData($form);
 
+
             if( !$this->allowAnonymous )
                 throw new AccessDeniedException("Anonymous users cannot buy");
 
@@ -131,13 +137,14 @@ class CartFlow extends CartFlowBase
                 return null;
             }
 
-            if ($this->nextStep()) {
+
+            if ($this->nextStep() && $this->cartMode != 'single_page') {
                 // form for the next step
                 $form = $this->createForm();
             } else {
                 // flow finished
                 /** @var SkuskuCart $finalCart */
-                $finalCart = $formData->getCart();
+                $finalCart = $formData->getCart();                
 
                 if ($this->hasListeners(self::PRE_SUBMIT)) {
                     $event = new PreSubmitCartEvent($this, $finalCart);
@@ -165,6 +172,11 @@ class CartFlow extends CartFlowBase
                 );
 
                 $finalCart->setPayment($payment);
+
+                $requestFields = $this->requestStack->getCurrentRequest()->request->get('choosePayment');
+                if(isset($requestFields['additionalFields']) && count($requestFields['additionalFields']) > 0 ) {
+                    $finalCart->setAdditionalFields(json_encode($requestFields['additionalFields']));
+                }                
 
                 $this->cartManager->flushCart($finalCart);
 
@@ -243,4 +255,14 @@ class CartFlow extends CartFlowBase
         $this->allowAnonymous = $allowAnonymous;
         return $this;
     }
+
+    /**
+     * @param boolean $cartMode
+     * @return CartFlow
+     */
+    public function setCartMode($cartMode)
+    {
+        $this->cartMode = $cartMode;
+        return $this;
+    }    
 }

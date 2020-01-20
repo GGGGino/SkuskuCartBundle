@@ -32,6 +32,7 @@ services:
             - [setPayum, ['@payum']]
             - [setTokenStorage, ['@security.token_storage']]
             - [setAllowAnonymous, ['%ggggino_skuskucart.allow_anonymous_shop%']]
+            - [setCartMode, ['%ggggino_skuskucart.cart_mode%']]            
 
     GGGGino\SkuskuCartBundle\Service\SkuskuHelper:
         public: true
@@ -48,3 +49,10 @@ services:
         arguments: ["%skusku_gateways%"]
         tags:
             - { name: form.type }
+
+
+    GGGGino\SkuskuCartBundle\Form\CartFlowType:
+        class: GGGGino\SkuskuCartBundle\Form\CartFlowType\CartSinglePageFormType
+        arguments: ['%ggggino_skuskucart.extra_fields%']
+        tags:
+          - { name: form.type }

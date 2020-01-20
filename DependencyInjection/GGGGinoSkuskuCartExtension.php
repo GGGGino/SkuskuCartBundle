@@ -27,7 +27,9 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
 
         $container->setParameter('ggggino_skuskucart.allow_anonymous_shop', $config['allow_anonymous_shop']);
 
-        $container->setParameter('ggggino_skuskucart.additional_fields', $config['additional_fields']);        
+        $container->setParameter('ggggino_skuskucart.additional_fields', $config['additional_fields']);
+
+        $container->setParameter('ggggino_skuskucart.extra_fields', $config['extra_fields']);                
 
         $container->setParameter('ggggino_skuskucart.stepform', $config['stepform']);
 

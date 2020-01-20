@@ -83,6 +83,13 @@ class SkuskuCart
      */
     private $status = self::STATUS_INITIAL;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="additional_fields", type="array", nullable=true)
+     */
+    private $additionalFields;    
+
 
     /**
      * Cart constructor.
@@ -315,4 +322,28 @@ class SkuskuCart
         $this->status = $status;
         return $this;
     }
+
+    /**
+     * Set additionalFields.
+     *
+     * @param array|null $additionalFields
+     *
+     * @return SkuskuCart
+     */
+    public function setAdditionalFields($additionalFields = null)
+    {
+        $this->additionalFields = $additionalFields;
+
+        return $this;
+    }
+
+    /**
+     * Get additionalFields.
+     *
+     * @return SkuskuCart
+     */
+    public function getAdditionalFields()
+    {
+        return $this->additionalFields;
+    }    
 }

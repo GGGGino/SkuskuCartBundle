@@ -66,6 +66,8 @@ class CartController extends Controller
         return $this->render($cartTemplate, array(
             'form' => $form->createView(),
             'flow' => $flow,
+            'additional_fields' => $this->getParameter('ggggino_skuskucart.additional_fields'),
+            'cart_mode' => $this->getParameter('ggggino_skuskucart.cart_mode')
         ));
     }
 
