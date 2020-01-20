@@ -137,7 +137,8 @@ class CartFlow extends CartFlowBase
                 return null;
             }
 
-            if ($this->nextStep() && !$this->cartMode == 'single_page') {
+
+            if ($this->nextStep() && $this->cartMode != 'single_page') {
                 // form for the next step
                 $form = $this->createForm();
             } else {
