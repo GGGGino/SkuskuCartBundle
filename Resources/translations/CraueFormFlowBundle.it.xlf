@@ -18,6 +18,10 @@
                 <source>button.reset</source>
                 <target>Reset</target>
             </trans-unit>
+            <trans-unit id="button.emptycart">
+                <source>button.emptycart</source>
+                <target>Svuota il carrello</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

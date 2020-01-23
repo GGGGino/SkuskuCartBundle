@@ -80,6 +80,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('id')->end()
                             ->scalarNode('type')->end()                            
                             ->scalarNode('label')->end()
+                            ->scalarNode('class')->end()
                         ->end()
                     ->end()
                     ->beforeNormalization()

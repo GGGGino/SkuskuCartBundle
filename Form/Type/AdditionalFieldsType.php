@@ -24,9 +24,14 @@ class AdditionalFieldsType extends AbstractType
         foreach ($options['fields'] as $field) {
             $class = 'Symfony\Component\Form\Extension\Core\Type\\'.$field['type'] .'Type';
 
+            $cssClass = null !== $field['class'] ? $field['class'] : '';
+
             $builder
                 ->add($field['id'], $class, array(
-                    'label' => $field['id']
+                    'label' => $field['label'],
+                    'attr' => array(
+                        'class' => $cssClass
+                    )
                 ));
         }
 
@@ -37,7 +42,8 @@ class AdditionalFieldsType extends AbstractType
 
         $resolver->setDefaults(array(
             'fields' => array(),
-            'label' => false
+            'label' => false,
+            'class' => false
         ));
     }
 }
