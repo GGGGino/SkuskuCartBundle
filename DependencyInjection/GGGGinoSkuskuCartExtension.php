@@ -41,6 +41,8 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
             $container->setParameter('ggggino_skuskucart.templates.' . $key, $template);
         }
 
+        $container->setParameter('ggggino_skuskucart.redirect_after_done_route', $config['redirect_after_done_route']);        
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 

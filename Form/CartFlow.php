@@ -33,6 +33,8 @@ class CartFlow extends CartFlowBase
 
     const TRANSITION_RESET_CART = 'emptycart';
 
+    const TOKEN_NOT_FOUND = 'skusku_cart.token_not_found';
+
     /**
      * @var CartManager
      */

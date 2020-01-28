@@ -8,6 +8,7 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProduct;
 use GGGGino\SkuskuCartBundle\Model\SkuskuCartProductInterface;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
+use GGGGino\SkuskuCartBundle\Event\TokenNotFoundCartEvent;
 use Payum\Core\Gateway;
 use Payum\Core\Request\GetHumanStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -113,11 +114,22 @@ class CartController extends Controller
         /** @var CartFlow $flow */
         $flow = $this->get($cartFlowClass);
 
-        $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
+        try {
+            $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
+        } catch (\Exception $tokenNotFound) {
+
+            if(null !== $this->getParameter('ggggino_skuskucart.redirect_after_done_route')) {
+                return $this->redirectToRoute($redirectRoute);
+            }
+
+            $event = new TokenNotFoundCartEvent();
+            return $this->container->get('event_dispatcher')->dispatch($flow::TOKEN_NOT_FOUND, $event)->getResponse();
+
+        }        
 
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
 
-        //$this->get('payum')->getHttpRequestVerifier()->invalidate($token);
+        $this->get('payum')->getHttpRequestVerifier()->invalidate($token);
 
         $gateway->execute($status = new GetHumanStatus($token));
         $payment = $status->getFirstModel();
