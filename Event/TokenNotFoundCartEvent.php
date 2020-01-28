@@ -11,21 +11,22 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TokenNotFoundCartEvent extends Event
 {
-    protected $response;   
+    /**
+     * @var Response
+     */
+    protected $response;
 
     /**
-     * @param string $test
+     * @param Response $response
      */
-    public function __construct()
-    {
-
-    }
-
     public function setResponse($response)
     {
         $this->response = $response;
     }    
 
+    /**
+     * @return Response
+     */
     public function getResponse()
     {
         return $this->response;
