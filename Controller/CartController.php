@@ -117,7 +117,7 @@ class CartController extends Controller
         try {
             $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
         } catch (\Exception $tokenNotFound) {
-
+            // To remove this if because everithing is managed in the event listener
             if(null !== $this->getParameter('ggggino_skuskucart.redirect_after_done_route')) {
                 return $this->redirectToRoute($redirectRoute);
             }
