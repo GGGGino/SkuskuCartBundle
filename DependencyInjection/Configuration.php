@@ -101,6 +101,9 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                 ->end()
+                ->scalarNode('redirect_after_done_route')
+                    ->defaultNull()
+                ->end()                
             ->end()
         ;
 
