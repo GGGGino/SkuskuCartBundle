@@ -123,7 +123,7 @@ class CartController extends Controller
             }
 
             $event = new TokenNotFoundCartEvent();
-            return $this->container->get('event_dispatcher')->dispatch($flow::TOKEN_NOT_FOUND, $event)->getResponse();
+            return $this->container->get('event_dispatcher')->dispatch(CartFlow::TOKEN_NOT_FOUND, $event)->getResponse();
 
         }        
 
