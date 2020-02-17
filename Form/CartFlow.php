@@ -160,7 +160,7 @@ class CartFlow extends CartFlowBase
                 $payment = new SkuskuPayment();
                 $payment->setNumber(uniqid());
                 $payment->setCurrencyCode($finalCart->getCurrency()->getIsoCode());
-                $payment->setTotalAmount($finalCart->getTotalPrice()); // 1.23 EUR
+                $payment->setTotalAmount($finalCart->getTotalPrice() * 100); // 1.23 EUR
                 $payment->setDescription($finalCart->getTotalQuantity());
                 $payment->setClientId($finalCart->getCustomer());
                 $payment->setClientEmail($finalCart->getCustomer()->getEmail());
