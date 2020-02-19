@@ -6,6 +6,7 @@ use Doctrine\Bundle\CouchDBBundle\DependencyInjection\Compiler\DoctrineCouchDBMa
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Doctrine\Bundle\MongoDBBundle\DependencyInjection\Compiler\DoctrineMongoDBMappingsPass;
 use GGGGino\SkuskuCartBundle\DependencyInjection\Compiler\DoctrineRelatedPass;
+use GGGGino\SkuskuCartBundle\DependencyInjection\Compiler\RequestVerifierPass;
 use GGGGino\SkuskuCartBundle\DependencyInjection\GGGGinoSkuskuCartExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -17,6 +18,8 @@ class GGGGinoSkuskuCartBundle extends Bundle
         parent::build($container);
 
         $this->addRegisterMappingsPass($container);
+
+        $container->addCompilerPass(new RequestVerifierPass());
     }
 
     /**

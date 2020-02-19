@@ -104,7 +104,7 @@ class GGGGinoSkuskuCartExtension extends Extension implements PrependExtensionIn
     private function prependPayumGateway(ContainerBuilder $container)
     {
         if (!$container->hasExtension('payum')) {
-            die('non ce payum');
+            throw new \Exception("Payum config not found");
         }
 
         $configs = $container->getExtensionConfig('payum') ?: array(
