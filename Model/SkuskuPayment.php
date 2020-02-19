@@ -26,6 +26,16 @@ class SkuskuPayment extends Payment
     private $cart;
 
     /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }    
+
+    /**
      * @return mixed
      */
     public function getCart()
