@@ -12,10 +12,12 @@ use GGGGino\SkuskuCartBundle\Model\SkuskuCart;
 use GGGGino\SkuskuCartBundle\Model\SkuskuPayment;
 use GGGGino\SkuskuCartBundle\Service\CartManager;
 use GGGGino\SkuskuCartBundle\Service\OrderManager;
+use GGGGino\SkuskuCartBundle\Service\RequestVerifierInterface;
 use Payum\Core\GatewayInterface;
 use Payum\Core\Payum;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -68,7 +70,12 @@ class CartFlow extends CartFlowBase
     /**
      * @var string
      */
-    protected $cartMode;    
+    protected $cartMode;
+
+    /**
+     * @var RequestVerifierInterface[]
+     */
+    protected $requestVerifiers;
 
     /**
      * CartFlowBase constructor.
@@ -81,13 +88,15 @@ class CartFlow extends CartFlowBase
         array $configSteps,
         CartManager $cartManager,
         OrderManager $orderManager,
-        RequestStack $requestStack)
-    {
+        RequestStack $requestStack
+    ) {
         parent::__construct($configSteps);
 
         $this->cartManager = $cartManager;
         $this->requestStack = $requestStack;
         $this->orderManager = $orderManager;
+
+        $this->requestVerifiers = [];
     }
 
     /**
@@ -127,7 +136,6 @@ class CartFlow extends CartFlowBase
         if ($this->isValid($form)) {
             $this->saveCurrentStepData($form);
 
-
             if( !$this->allowAnonymous )
                 throw new AccessDeniedException("Anonymous users cannot buy");
 
@@ -138,7 +146,6 @@ class CartFlow extends CartFlowBase
                 $form = $this->createForm();
                 return null;
             }
-
 
             if ($this->nextStep() && $this->cartMode != 'single_page') {
                 // form for the next step
@@ -221,6 +228,23 @@ class CartFlow extends CartFlowBase
         // so you can do whatever you want for example you can just print status and payment details.
     }
 
+    /**
+     * @param Request $request
+     * @return \Payum\Core\Security\TokenInterface
+     * @throws \Exception
+     */
+    public function handleVerify(Request $request)
+    {
+        /** @var RequestVerifierInterface $verifier */
+        foreach ($this->requestVerifiers as $verifier) {
+            if ($verifier->supports($request)) {
+                return $verifier->verify($request, $this->payum);
+            }
+        }
+
+        return $this->payum->getHttpRequestVerifier()->verify($request);
+    }
+
     protected function emptyCart(CartForm $formData)
     {
         $this->cartManager->emptyCart($formData);
@@ -266,5 +290,14 @@ class CartFlow extends CartFlowBase
     {
         $this->cartMode = $cartMode;
         return $this;
-    }    
+    }
+
+    /**
+     * @param RequestVerifierInterface $requestVerifier
+     * @return CartFlow
+     */
+    public function addRequestVerifier(RequestVerifierInterface $requestVerifier)
+    {
+        $this->requestVerifiers[] = $requestVerifier;
+    }
 }

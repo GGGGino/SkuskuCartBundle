@@ -115,16 +115,10 @@ class CartController extends Controller
         $flow = $this->get($cartFlowClass);
 
         try {
-            $token = $this->get('payum')->getHttpRequestVerifier()->verify($request);
+            $token = $flow->handleVerify($request);
         } catch (\Exception $tokenNotFound) {
-            // To remove this if because everithing is managed in the event listener
-            if(null !== $this->getParameter('ggggino_skuskucart.redirect_after_done_route')) {
-                return $this->redirectToRoute($redirectRoute);
-            }
-
             $event = new TokenNotFoundCartEvent();
             return $this->container->get('event_dispatcher')->dispatch(CartFlow::TOKEN_NOT_FOUND, $event)->getResponse();
-
         }        
 
         $gateway = $this->get('payum')->getGateway($token->getGatewayName());
