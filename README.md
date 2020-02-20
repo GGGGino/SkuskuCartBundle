@@ -310,6 +310,85 @@ ggggino_skuskucart:
         done_layout: 'xxxBundle:xxx:xxx.html.twig'
 ``` 
 
+## Verifiers
+
+The verifiers are a custom service to retrieve the token from the request when this one
+is not directly available in the query string.
+It is used in the "done" action when the gateway does not return the url you setted.
+For example gestpay will not return the passed token, instead it pass in the query-string a "gestpay token"
+that needs to be decripted and at this point you can take the payum payment token
+
+When you create a Verifier, the system adds it to the available-list.
+If no verifier will be found then the payum core one will be used.
+
+```yaml
+GGGGino\SkuskuCartBundle\Gateway\Verifiers\GestPayVerifier:
+        public: false
+        tags:
+            - { name: ggggino_skuskucart.request_verifier}
+```
+
+```php
+<?php
+
+namespace GGGGino\SkuskuCartBundle\Gateway\Verifiers;
+
+use GGGGino\SkuskuCartBundle\Model\SkuskuPaymentToken;
+use GGGGino\SkuskuCartBundle\Service\RequestVerifierInterface;
+use Payum\Core\Bridge\Spl\ArrayObject;
+use Payum\Core\Payum;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManager;
+
+class GestPayVerifier implements RequestVerifierInterface
+{
+    /** @var \Doctrine\ORM\EntityManager $entityManager */
+    protected $em;
+
+
+    /**
+     * Obviously $em is not required but if you want to search in the db you have to use it
+     * GestPayVerifier constructor.
+     * @param EntityManager $em
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function verify(Request $request, $extra = null)
+    {
+        /** @var string $token Con questo token puoi cercare sul db il payment e da li fare il return del SkuskuPaymentToken trovato */
+        $token = $request->query->get('b');
+
+        $skuskuPaymentToken = $this->em->getRepository(SkuskuPaymentToken::class)->findOneByHash($token);
+
+        return $skuskuPaymentToken;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function supports(Request $request)
+    {
+        return true;
+    }
+}
+```
+
+> Verifiers must implement `RequestVerifierInterface`.
+
+#### `RequestVerifierInterface::supports(Request $request)`
+
+This method is used to check if the verifier should be used. 
+
+#### `RequestVerifierInterface::verify(Request $request, $extra = null)`
+
+This method is used to retrieve the right token from the request.
+
 ## Events
 
 | Name | Constant | Argument passed | Description |

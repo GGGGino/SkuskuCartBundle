@@ -15,7 +15,7 @@ interface RequestVerifierInterface
      * Execute the verify
      *
      * @param Request $request
-     * @param $extra
+     * @param mixed $extra
      * @return TokenInterface
      */
     public function verify(Request $request, $extra = null);
